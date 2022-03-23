@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AMISquestions</string>
+    <string name="settings">Настройки</string>
 </resources>
