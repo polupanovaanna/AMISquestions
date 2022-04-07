@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 // import com.example.myapplication.databinding.ActivityMainBinding;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -41,8 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initFunc() {
         setSupportActionBar(mToolbar);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.dataContainer, new SettingsFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.dataContainer, new SettingsFragment())
+                .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.dataContainer, new NewPostsFragment())
+                .commit();
+
+
         createHeader();
         createDrawer();
     }
@@ -70,17 +80,22 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch (position) {
-                            case 1: getSupportFragmentManager()
+                        if( position == 1) {
+                            getSupportFragmentManager()
                                     .beginTransaction()
-                                    .addToBackStack(null)
-                                    .replace(R.id.dataContainer, new NewPostsFragment());
-                            case 2: getSupportFragmentManager()
+                                    .replace(R.id.dataContainer, new NewPostsFragment())
+                                    .commit();
+                            Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+
+                        }else if (position == 2) {
+                            getSupportFragmentManager()
                                     .beginTransaction()
-                                    .addToBackStack(null)
-                                    .replace(R.id.dataContainer, new SettingsFragment());
+                                    .replace(R.id.dataContainer, new SettingsFragment())
+                                    .commit();
+                            Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+
                         }
-                        Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getApplicationContext(), Integer.toString(position + 5), Toast.LENGTH_LONG - 1).show();
                         return false;
                     }
                 })
