@@ -11,6 +11,7 @@ import com.google.firebase.database.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class Controller {
     private DatabaseReference mDatabase;
@@ -57,6 +58,20 @@ public class Controller {
     }
 
     public Stream<Post> posts() {
-        return new ArrayList<Post>().stream();
+        Stream<Post> res = new ArrayList<Post>().stream();
+        mDatabase.child(Post.GROUP_ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterable<DataSnapshot> iterable = snapshot.getChildren();
+                Stream<Post> dsnap = StreamSupport.stream(iterable.spliterator(), false).map(snap->(Post)snap.getValue());
+                Stream.concat(res, dsnap);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return res;
     }
 }
