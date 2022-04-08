@@ -80,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
                                 .withIdentifier(101)
                                 .withIconTintingEnabled(true)
                                 .withName("Настройки")
+                                .withSelectable(false),
+                        new PrimaryDrawerItem()
+                                .withIdentifier(102)
+                                .withIconTintingEnabled(true)
+                                .withName("test button")
                                 .withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -101,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
                             getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new SettingsFragment())
+                                    .commit();
+                            Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+
+                        } else if(position == 3) {
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.dataContainer, new TestButton())
                                     .commit();
                             Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 

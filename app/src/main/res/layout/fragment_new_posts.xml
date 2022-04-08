@@ -19,7 +19,6 @@
         android:clipToPadding="false"
         android:padding="5dp"
         android:scrollbars="vertical"
-        tools:listitem="@layout/fragment_post_preview"
-        />
+        tools:listitem="@layout/fragment_post_preview" />
 
 </FrameLayout>
