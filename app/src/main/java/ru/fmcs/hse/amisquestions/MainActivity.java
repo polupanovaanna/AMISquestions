@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 // import com.example.myapplication.databinding.ActivityMainBinding;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -47,10 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.dataContainer, new SettingsFragment())
                 .commit();
+        /*
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.dataContainer, new NewPostsFragment())
                 .commit();
+
+         */
 
 
         createHeader();
@@ -81,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if( position == 1) {
+                            // RecyclerView list = findViewById(R.id.postList);
+                            // list.setHasFixedSize(true);
+                            // PostPreviewAdapter adapter = new PostPreviewAdapter(100);
+                            // list.setAdapter(adapter);
+
                             getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new NewPostsFragment())
