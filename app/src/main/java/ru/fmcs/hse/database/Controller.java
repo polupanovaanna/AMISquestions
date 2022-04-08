@@ -14,15 +14,17 @@ import java.util.stream.Stream;
 
 public class Controller {
     private DatabaseReference mDatabase;
+
     public void addUser(String name) {
         mDatabase.child(User.GROUP_ID).child(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User checked = snapshot.getValue(User.class);
-                    if(checked != null){
-                        throw new IllegalArgumentException("No such user");
-                    }
+                User checked = snapshot.getValue(User.class);
+                if (checked != null) {
+                    throw new IllegalArgumentException("No such user");
+                }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 throw new UnknownError("Something in db went wrong");
@@ -50,11 +52,11 @@ public class Controller {
         return user.get(0);
     }
 
-    public void createPost(@NotNull String text, User user){
+    public void createPost(@NotNull String text, User user) {
 
     }
 
-    public Stream<Post> posts(){
+    public Stream<Post> posts() {
         return new ArrayList<Post>().stream();
     }
 }
