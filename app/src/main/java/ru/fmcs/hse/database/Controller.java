@@ -34,7 +34,7 @@ public class Controller {
         mDatabase.setValue(nUser);
     }
 
-    public User getUser(String userId) {
+    public User getUserById(String userId) {
         final List<User> user = new ArrayList<>();
         mDatabase.child(User.GROUP_ID).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
