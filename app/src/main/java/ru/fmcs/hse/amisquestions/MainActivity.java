@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private Drawer mDrawer;
     private AccountHeader mHeader;
     private Toolbar mToolbar;
+    private NewPostsFragment newPostsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        newPostsFragment = new NewPostsFragment();
     }
 
     @Override
@@ -85,19 +87,14 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if( position == 1) {
-                            // RecyclerView list = findViewById(R.id.postList);
-                            // list.setHasFixedSize(true);
-                            // PostPreviewAdapter adapter = new PostPreviewAdapter(100);
-                            // list.setAdapter(adapter);
-
+                        if (position == 1) {
                             getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, new NewPostsFragment())
+                                    .replace(R.id.dataContainer, newPostsFragment)
                                     .commit();
                             Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
-                        }else if (position == 2) {
+                        } else if (position == 2) {
                             getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new SettingsFragment())
