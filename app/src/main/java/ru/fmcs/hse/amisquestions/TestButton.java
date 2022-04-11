@@ -1,5 +1,6 @@
 package ru.fmcs.hse.amisquestions;
 
+import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.stream.Stream;
+
 import ru.fmcs.hse.amisquestions.databinding.FragmentTestButtonBinding;
+import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.Post;
+import ru.fmcs.hse.database.User;
 
 public class TestButton extends Fragment {
     FragmentTestButtonBinding mBinding;
@@ -37,10 +48,12 @@ public class TestButton extends Fragment {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String s = input.getText().toString();
-                // foo
 
-                res.setText(s);
+                String s = input.getText().toString();
+                FirebaseApp.initializeApp(FirebaseAuth.getInstance().getApp().getApplicationContext());
+                Controller c = new Controller(FirebaseDatabase.getInstance().getReference());
+
+                res.setText(c.getAllUsers().get(0).getUserName());
             }
         });
     }

@@ -2,9 +2,11 @@ package ru.fmcs.hse.database;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
@@ -15,6 +17,10 @@ import java.util.stream.StreamSupport;
 
 public class Controller {
     private DatabaseReference mDatabase;
+
+    public Controller(DatabaseReference mDatabase) {
+        this.mDatabase = mDatabase;
+    }
 
     public void addUser(String name) {
         mDatabase.child(User.GROUP_ID).child(name).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -54,17 +60,34 @@ public class Controller {
     }
 
     public void createPost(@NotNull String text, User user) {
-
+            String id = mDatabase.getKey();
+            Post nPost = new Post(id, user, text);
+            mDatabase.child(Post.GROUP_ID).setValue(nPost);
+            mDatabase.push();
     }
+    public List<User> getAllUsers(){
+        final List<User> user = new ArrayList<>();
+        mDatabase.child(User.GROUP_ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user.set(0, snapshot.getValue(User.class));//Suggest something like frontend.do_something?
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw new IllegalArgumentException("No such user");
+            }
+        });
+        return user;
+    }
     public Stream<Post> posts() {
-        Stream<Post> res = new ArrayList<Post>().stream();
+        final Stream<Post>[] res = new Stream[]{new ArrayList<Post>().stream()};
         mDatabase.child(Post.GROUP_ID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Iterable<DataSnapshot> iterable = snapshot.getChildren();
                 Stream<Post> dsnap = StreamSupport.stream(iterable.spliterator(), false).map(snap->(Post)snap.getValue());
-                Stream.concat(res, dsnap);
+                res[0] = Stream.concat(res[0], dsnap);
             }
 
             @Override
@@ -72,6 +95,6 @@ public class Controller {
 
             }
         });
-        return res;
+        return res[0];
     }
 }
