@@ -5,24 +5,23 @@ import java.util.List;
 
 public class Post extends ContentObj{
 
-    static final String GROUP_ID = "posts";
-    private String postId;
-
+    static String GROUP_ID = "posts";
     private int numberOfComments = 0;
     List<String> listOfCommentsId = new ArrayList<>();
     List<String> tags = new ArrayList<>();
-
+    public Post(){
+    }
     public Post(String postId, User author, String text) {
         super(author, text);
-        this.postId = postId;
+        this.id = postId;
     }
 
     public void increaseNumberOfComments() {
         numberOfComments++;
     }
-
-    public void addComment() {
-         //TODO for the firebase master
+    public void addComment(Comment comment){
+        listOfCommentsId.add(comment.postId);
+        increaseNumberOfComments();
     }
 
 

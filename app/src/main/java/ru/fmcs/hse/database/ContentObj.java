@@ -8,8 +8,20 @@ public class ContentObj {
     protected String text = null;
     protected int numberOfViews = 0;
     protected Date timeCreated = null;
-    //Список объектов типа: файл
+    static String GROUP_ID;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    protected String id;
+    //Список объектов типа: файл
+    protected ContentObj(){
+    }
     protected ContentObj(User author, String text) {
         this.author = author;
         setText(text);
@@ -26,6 +38,10 @@ public class ContentObj {
 
     public String getText() {
         return text;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getAuthorName() {

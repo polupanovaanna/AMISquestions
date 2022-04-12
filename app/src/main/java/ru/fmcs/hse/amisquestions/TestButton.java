@@ -50,10 +50,9 @@ public class TestButton extends Fragment {
             public void onClick(View view) {
 
                 String s = input.getText().toString();
-                FirebaseApp.initializeApp(FirebaseAuth.getInstance().getApp().getApplicationContext());
                 Controller c = new Controller(FirebaseDatabase.getInstance().getReference());
-
-                res.setText(c.getAllUsers().get(0).getUserName());
+                c.addUser("serega228");
+                c.getOnePost(res);
             }
         });
     }

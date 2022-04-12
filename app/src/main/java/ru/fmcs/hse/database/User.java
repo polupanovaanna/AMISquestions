@@ -9,14 +9,18 @@ public class User {
         Guest
     }
 
-    static final String GROUP_ID = "users";
-    private final String userId;
+    static String GROUP_ID = "users";
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    private String userId;
 
     private String userName;
     Role userRole = Role.Guest;
 
-    public User(String userId, String name) {
-        this.userId = userId;
+    public User(String name) {
         this.userName = name;
     }
 

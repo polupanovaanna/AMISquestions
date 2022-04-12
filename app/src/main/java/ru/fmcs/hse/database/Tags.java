@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Tags {
+    static String GROUP_ID = "Tag";
     private ArrayList<String> tags = new ArrayList<>(Arrays.asList("C++", "python", "java"));
 
     public void addTag(String newtag) {
