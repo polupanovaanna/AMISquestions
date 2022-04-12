@@ -46,6 +46,8 @@ public class CreateNewPost extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = view.findViewById(R.id.toolbar2);
+        MTV = view.findViewById(R.id.markdown_text);
+
         // mBinding.toolbar2;
         // mToolbar.setDisplayHomeAsUpEnabled(true);
         // mToolbar.dismissPopupMenus();
@@ -55,7 +57,8 @@ public class CreateNewPost extends Fragment {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("post");
+                String post = MTV.getText();
+                System.out.println(post);
             }
         });
 
