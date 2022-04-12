@@ -59,7 +59,7 @@ public class CreateNewPost extends Fragment {
             @Override
             public void onClick(View view) {
                 String post = MTV.getText();
-                MainActivity.controller.addPost(post, new User("serega"));
+                MainActivity.controller.addPost(post, "serega");
             }
         });
 

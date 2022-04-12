@@ -4,25 +4,16 @@ import java.util.Date;
 
 public class ContentObj {
 
-    protected User author = null;
+    protected String author = null;
     protected String text = null;
     protected int numberOfViews = 0;
     protected Date timeCreated = null;
     static String GROUP_ID;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    protected String id;
     //Список объектов типа: файл
     protected ContentObj(){
     }
-    protected ContentObj(User author, String text) {
+    protected ContentObj(String authorId, String text) {
         this.author = author;
         setText(text);
         timeCreated = new Date();
@@ -40,12 +31,12 @@ public class ContentObj {
         return text;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    public String getAuthorName() {
-        return author.getUserName();
+    public String getAuthor() {
+        return author;
     }
 
     public int getNumberOfViews() {
