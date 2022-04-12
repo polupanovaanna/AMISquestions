@@ -22,9 +22,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.util.Objects;
-
-import ru.fmcs.hse.amisquestions.databinding.ActivityMainBinding;
 import ru.fmcs.hse.amisquestions.databinding.FragmentMainPagesBinding;
 
 public class MainPages extends Fragment {

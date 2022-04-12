@@ -29,6 +29,7 @@ public class CreateNewPost extends Fragment {
     private FragmentCreateNewPostBinding mBinding;
     Toolbar mToolbar;
     private Drawer mDrawer;
+    MarkdownTextView MTV;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +49,7 @@ public class CreateNewPost extends Fragment {
         // mToolbar.dismissPopupMenus();
         mToolbar.setTitle("Simple Sample");
         //getActivity().setActionBar(mToolbar);
+
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class CreateNewPost extends Fragment {
     private void createDrawer() {
 
         mDrawer = new DrawerBuilder()
-                .withActivity(((AppCompatActivity)getActivity()))
+                .withActivity(((AppCompatActivity) getActivity()))
                 .withToolbar(mToolbar)
                 /*
                 .withActionBarDrawerToggle(true)
