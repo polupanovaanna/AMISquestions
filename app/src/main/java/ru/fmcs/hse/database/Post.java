@@ -20,7 +20,7 @@ public class Post extends ContentObj{
         numberOfComments++;
     }
     public void addComment(Comment comment){
-        listOfCommentsId.add(comment.postId);
+        listOfCommentsId.add(comment.id);
         increaseNumberOfComments();
     }
 

@@ -104,9 +104,11 @@ public class Controller {
     }
 
     public void addComment(Post post, Comment comment) {
+        post.addComment(comment);
         String key = mDatabase.child(Post.GROUP_ID).child(post.getId()).child(Comment.GROUP_ID).getKey();
         comment.setId(key);
-        mDatabase.child(Comment.GROUP_ID).setValue(comment);
+        mDatabase.child(Post.GROUP_ID).child(Comment.GROUP_ID).setValue(comment);
+        mDatabase.child(Post.GROUP_ID).child(post.getId()).setValue(post);
     }
 
     public void getComments(Post post /*, view*/) {
