@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -30,6 +31,7 @@ public class CreateNewPost extends Fragment {
     Toolbar mToolbar;
     private Drawer mDrawer;
     MarkdownTextView MTV;
+    Button postButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +51,13 @@ public class CreateNewPost extends Fragment {
         // mToolbar.dismissPopupMenus();
         mToolbar.setTitle("Simple Sample");
         //getActivity().setActionBar(mToolbar);
+        postButton = view.findViewById(R.id.post_button);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("post");
+            }
+        });
 
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

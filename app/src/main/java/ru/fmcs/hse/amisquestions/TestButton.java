@@ -52,6 +52,7 @@ public class TestButton extends Fragment {
                 String s = input.getText().toString();
                 Controller c = new Controller(FirebaseDatabase.getInstance().getReference());
                 c.addUser("serega228");
+                c.addUser("max1337");
                 c.getOnePost(res);
             }
         });
