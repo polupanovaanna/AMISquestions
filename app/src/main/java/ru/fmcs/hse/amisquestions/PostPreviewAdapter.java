@@ -10,14 +10,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import ru.fmcs.hse.database.Post;
+
 public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.PostPreviewHolder> {
 
     int numberItems;
     public static int adapterNumber = 0;
-
+    ArrayList<Post> currentPosts = new ArrayList<>();
     public PostPreviewAdapter(int cnt) {
         numberItems = cnt;
         adapterNumber += 1;
+        MainActivity.controller.getPosts(currentPosts);
     }
 
     @NonNull
@@ -43,7 +51,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     @Override
     public int getItemCount() {
-        return numberItems;
+        return currentPosts.size();
     }
 
     class PostPreviewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +73,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
         void bind(int position) {
             id = position;
-            PostPreview.setText(String.valueOf(position) + " Добавим еще краткого описания в пару слов");
+            PostPreview.setText(currentPosts.get(position).getText());
         }
     }
 }

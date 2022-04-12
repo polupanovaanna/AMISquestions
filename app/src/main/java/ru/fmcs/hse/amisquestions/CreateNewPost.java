@@ -24,6 +24,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentCreateNewPostBinding;
+import ru.fmcs.hse.database.User;
 
 public class CreateNewPost extends Fragment {
 
@@ -58,7 +59,7 @@ public class CreateNewPost extends Fragment {
             @Override
             public void onClick(View view) {
                 String post = MTV.getText();
-                System.out.println(post);
+                MainActivity.controller.addPost(post, new User("serega"));
             }
         });
 

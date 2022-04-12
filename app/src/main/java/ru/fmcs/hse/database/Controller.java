@@ -14,6 +14,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -63,7 +64,7 @@ public class Controller {
     }
 
     public void addPost(@NotNull String text, User user) {
-        String id = mDatabase.child(Post.GROUP_ID).getKey();
+        String id = mDatabase.getKey();
         Post nPost = new Post(id, user, text);
         mDatabase.child(Post.GROUP_ID).setValue(nPost);
     }
@@ -123,6 +124,23 @@ public class Controller {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    public void getPosts(ArrayList<Post> holder) {
+        mDatabase.child(Post.GROUP_ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    if (snap.getValue(Post.class) != null) {
+                        holder.add(snap.getValue(Post.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
