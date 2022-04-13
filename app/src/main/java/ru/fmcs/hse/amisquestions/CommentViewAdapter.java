@@ -24,7 +24,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutId = R.layout.fragment_post_preview;
+        int layoutId = R.layout.fragment_post_comments;
 
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -54,7 +54,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            CommentView = itemView.findViewById(R.id.number_of_post);
+            CommentView = itemView.findViewById(R.id.comment);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

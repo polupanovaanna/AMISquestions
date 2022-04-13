@@ -47,7 +47,6 @@ public class PostCommentsFragment<CustomAdapter> extends Fragment {
         mRecyclerView = view.findViewById(R.id.RecyclerViewComments);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(manager);
-
         mRecyclerView.setHasFixedSize(true);
         adapter = new CommentViewAdapter(100);
         mRecyclerView.setAdapter(adapter);
