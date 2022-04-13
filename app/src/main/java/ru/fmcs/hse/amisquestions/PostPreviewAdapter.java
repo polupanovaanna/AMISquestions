@@ -44,13 +44,14 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                     if (post.hasChildren() && post.getKey() != null) {
                         if(currentPosts.containsKey(post.getKey())){
                             posts.set(currentPosts.get(post.getKey()), post.getValue(Post.class));
+                            notifyItemChanged(currentPosts.get(post.getKey()));
                         }else {
                             currentPosts.put(post.getKey(), posts.size());
                             posts.add(post.getValue(Post.class));
+                            notifyDataSetChanged();
                         }
                     }
                 }
-                notifyDataSetChanged();
                 System.out.println(currentPosts.size());
 
             }
@@ -107,9 +108,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
         void bind(int position) {
             id = position;
-
             if(currentPosts.size() > position){
-
                 PostPreview.setText(posts.get(position).getText());
             }
 
