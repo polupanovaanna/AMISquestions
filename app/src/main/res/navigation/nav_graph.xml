@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainPages">
+    app:startDestination="@id/loginPage">
 
     <fragment
         android:id="@+id/mainPages"
@@ -22,6 +22,15 @@
         tools:layout="@layout/fragment_create_new_post" >
         <action
             android:id="@+id/action_createNewPost_to_mainActivity"
+            app:destination="@id/mainPages" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginPage"
+        android:name="ru.fmcs.hse.amisquestions.LoginPage"
+        android:label="fragment_login_page"
+        tools:layout="@layout/fragment_login_page" >
+        <action
+            android:id="@+id/logged_in_action"
             app:destination="@id/mainPages" />
     </fragment>
 </navigation>
