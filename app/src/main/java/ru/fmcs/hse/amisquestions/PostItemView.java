@@ -27,7 +27,7 @@ public class PostItemView extends LinearLayout {
     private void initializeViews(Context context) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.markdown_view, this);
+        inflater.inflate(R.layout.post_item_view, this);
     }
 
     @Override

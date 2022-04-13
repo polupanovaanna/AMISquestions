@@ -10,19 +10,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PostViewAdapter extends RecyclerView.Adapter<PostViewAdapter.PostViewHolder> {
+public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.CommentViewHolder> {
 
     int numberItems;
     public static int adapterNumber = 0;
 
-    public PostViewAdapter(int cnt) {
+    public CommentViewAdapter(int cnt) {
         numberItems = cnt;
         adapterNumber += 1;
     }
 
     @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutId = R.layout.fragment_post_preview;
 
@@ -30,30 +30,31 @@ public class PostViewAdapter extends RecyclerView.Adapter<PostViewAdapter.PostVi
 
         View view = inflater.inflate(layoutId, parent, false);
 
-        PostViewHolder holder = new PostViewHolder(view);
+        CommentViewHolder holder = new CommentViewHolder(view);
         // TODO holder id, not
 
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewAdapter.PostViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        holder.bind(position);
     }
+
 
     @Override
     public int getItemCount() {
         return 0;
     }
 
-    class PostViewHolder extends RecyclerView.ViewHolder {
+    class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        TextView PostPreview;
+        TextView CommentView;
         int id = -1;
 
-        public PostViewHolder(@NonNull View itemView) {
+        public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            PostPreview = itemView.findViewById(R.id.number_of_post);
+            CommentView = itemView.findViewById(R.id.number_of_post);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,7 +66,7 @@ public class PostViewAdapter extends RecyclerView.Adapter<PostViewAdapter.PostVi
 
         void bind(int position) {
             id = position;
-            PostPreview.setText(String.valueOf(position) + " Добавим еще краткого описания в пару слов");
+            CommentView.setText(String.valueOf(position) + " Добавим еще краткого описания в пару слов");
         }
     }
 }

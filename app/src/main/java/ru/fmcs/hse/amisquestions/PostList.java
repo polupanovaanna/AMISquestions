@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 public class PostList extends Fragment {
     public PostList() {
+
     }
 
 

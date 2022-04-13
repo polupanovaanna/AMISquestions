@@ -17,7 +17,7 @@ import ru.fmcs.hse.amisquestions.databinding.FragmentCreateNewPostBinding;
 import ru.fmcs.hse.amisquestions.databinding.FragmentMainPagesBinding;
 import ru.fmcs.hse.amisquestions.databinding.FragmentPostViewBinding;
 
-public class PostView<CustomAdapter> extends Fragment {
+public class CommentView<CustomAdapter> extends Fragment {
 
     private FragmentPostViewBinding mBinding;
 
@@ -25,7 +25,7 @@ public class PostView<CustomAdapter> extends Fragment {
     protected CustomAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected PostItemView[] mDataset;
-    private PostViewAdapter adapter;
+    private CommentViewAdapter adapter;
     //PostItemView post;
 
     @Override
@@ -46,12 +46,12 @@ public class PostView<CustomAdapter> extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView = view.findViewById(R.id.postList);
+        mRecyclerView = view.findViewById(R.id.RecyclerViewComments);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(manager);
 
         mRecyclerView.setHasFixedSize(true);
-        adapter = new PostViewAdapter(100);
+        adapter = new CommentViewAdapter(100);
         mRecyclerView.setAdapter(adapter);
     }
 
