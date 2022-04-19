@@ -14,26 +14,27 @@ import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class Controller {
-    private final DatabaseReference mDatabase;
-
-    public Controller(DatabaseReference mDatabase) {
-        this.mDatabase = mDatabase;
+    private final FirebaseDatabase mDatabase;
+    public Controller() {
+        mDatabase = FirebaseDatabase.getInstance();
     }
 
     public void addUser(String name) {
-        mDatabase.child(User.GROUP_ID).child(name).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
+        ref.child(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User checked = snapshot.getValue(User.class);
                 if (checked == null) {
-                    String nId = mDatabase.getKey();
+                    String nId = ref.getKey();
                     User nUser = new User(name);
                     nUser.setUserId(nId);
-                    mDatabase.setValue(nUser);
+                    ref.setValue(nUser);
                 } else {
                     //TODO say to view that user exists
                 }
@@ -47,7 +48,8 @@ public class Controller {
     }
 
     public void getUserById(String userId/*TODO argument to se view*/) {
-        mDatabase.child(User.GROUP_ID).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
+        ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue(User.class) != null) {
@@ -62,14 +64,15 @@ public class Controller {
         });
     }
 
-    public void addPost(@NotNull String text, User user) {
-        String id = mDatabase.child(Post.GROUP_ID).getKey();
-        Post nPost = new Post(id, user, text);
-        mDatabase.child(Post.GROUP_ID).setValue(nPost);
+    public void addPost(@NotNull String text, String userId) {
+        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
+        Post nPost = new Post(userId, text);
+        ref.push().setValue(nPost);
     }
 
     public void getAllUsers(/*TODO something like*/TextView result) {
-        mDatabase.child(User.GROUP_ID).addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snap : snapshot.getChildren()) {
@@ -88,11 +91,12 @@ public class Controller {
 
     //Example
     public void getOnePost(TextView res) {
-        mDatabase.child(Post.GROUP_ID).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(Post.class) != null) {
-                    res.setText(snapshot.getValue(Post.class).getText());
+                if (snapshot.getChildrenCount() > 0) {
+                    res.setText(snapshot.getChildren().iterator().next().getValue(Post.class).getText());
                 }
             }
 
@@ -104,19 +108,39 @@ public class Controller {
     }
 
     public void addComment(Post post, Comment comment) {
-        post.addComment(comment);
-        String key = mDatabase.child(Post.GROUP_ID).child(post.getId()).child(Comment.GROUP_ID).getKey();
-        comment.setId(key);
-        mDatabase.child(Post.GROUP_ID).child(Comment.GROUP_ID).setValue(comment);
-        mDatabase.child(Post.GROUP_ID).child(post.getId()).setValue(post);
+        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
+        //post.addComment(comment);
+        //String key = ref.child(post.getId()).child(Comment.GROUP_ID).getKey();
+        //ref.child(post.getId()).child(Comment.GROUP_ID).setValue(comment);
+        //ref.child(post.getId()).setValue(post);
     }
 
     public void getComments(Post post /*, view*/) {
-        mDatabase.child(Post.GROUP_ID).child(Comment.GROUP_ID).addValueEventListener(new ValueEventListener() {
+//        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
+//        ref.child(post.getId()).child(Comment.GROUP_ID).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    //do something with dataSnapshot.getValue(Comment.class)
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+    }
+
+    public void getPosts(ArrayList<Post> holder) {
+        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    //do something with dataSnapshot.getValue(Comment.class)
+                if (snapshot.getChildrenCount() > 0) {
+                    holder.add(snapshot.getChildren().iterator().next().getValue(Post.class));
+                    System.out.println(snapshot.getChildren().iterator().next().getValue(Post.class));
+                    //{author=serega, ...}
                 }
             }
 
@@ -127,7 +151,4 @@ public class Controller {
         });
     }
 
-    void push() {
-        mDatabase.push();
-    }
 }

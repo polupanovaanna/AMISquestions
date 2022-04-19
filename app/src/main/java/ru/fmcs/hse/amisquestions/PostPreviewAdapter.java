@@ -10,14 +10,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.PostPreviewHolder> {
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.prefs.PreferenceChangeEvent;
+
+import ru.fmcs.hse.database.Post;
+
+public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.PostPreviewHolder> {
+    private final DatabaseReference postRef = FirebaseDatabase.getInstance().getReference(Post.GROUP_ID);
     int numberItems;
     public static int adapterNumber = 0;
+    final ArrayList<Post> currentPosts = new ArrayList<>();
 
     public PostPreviewAdapter(int cnt) {
         numberItems = cnt;
         adapterNumber += 1;
+
     }
 
     @NonNull
@@ -43,7 +59,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     @Override
     public int getItemCount() {
-        return numberItems;
+        return 2;
     }
 
     class PostPreviewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +81,27 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
         void bind(int position) {
             id = position;
-            PostPreview.setText(String.valueOf(position) + " Добавим еще краткого описания в пару слов");
+            postRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot post : snapshot.getChildren()) {
+                        if (post.hasChildren() && post.getKey() != null) {
+                            currentPosts.add(post.getValue(Post.class));
+                        }
+                    }
+                    if(currentPosts.size() > position){
+                        PostPreview.setText(currentPosts.get(position).getText());
+                    }
+                    System.out.println(currentPosts.size());
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
     }
 }
