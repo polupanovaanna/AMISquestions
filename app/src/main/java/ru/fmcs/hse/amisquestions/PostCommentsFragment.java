@@ -22,9 +22,8 @@ public class PostCommentsFragment<CustomAdapter> extends Fragment {
     private FragmentPostCommentsBinding mBinding;
 
     protected RecyclerView mRecyclerView;
-    protected CustomAdapter mAdapter;
-    protected RecyclerView.LayoutManager mLayoutManager;
-    protected PostItemView[] mDataset;
+    //protected RecyclerView.LayoutManager mLayoutManager;
+    //protected PostItemView[] mDataset;
     private CommentViewAdapter adapter;
 
     @Override
@@ -36,7 +35,6 @@ public class PostCommentsFragment<CustomAdapter> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mBinding = FragmentPostCommentsBinding.inflate(getLayoutInflater());
         return mBinding.getRoot();
     }
@@ -50,5 +48,10 @@ public class PostCommentsFragment<CustomAdapter> extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         adapter = new CommentViewAdapter(100);
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }
