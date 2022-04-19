@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -120,6 +121,7 @@ public class MainPages extends Fragment {
                             Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 3) {
+
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new TestButton())

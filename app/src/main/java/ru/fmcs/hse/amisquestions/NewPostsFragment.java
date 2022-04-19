@@ -51,8 +51,8 @@ public class NewPostsFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         list.setLayoutManager(manager);
 
-        list.setHasFixedSize(true);
-        adapter = new PostPreviewAdapter(100);
+        list.setHasFixedSize(false);
+        adapter = new PostPreviewAdapter();
         list.setAdapter(adapter);
 
         System.out.println("here: " + (list == null));
