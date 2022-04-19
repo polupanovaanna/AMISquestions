@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "248833360142",
+    "firebase_url": "https://hseoverflow-default-rtdb.firebaseio.com",
+    "project_id": "hseoverflow",
+    "storage_bucket": "hseoverflow.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248833360142:android:55a314befe097761f4d75f",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248833360142-olh1bonei0f5s479cjs39g3eki1dfhph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMW7t0lYGM_pwwQCSSSQmsH_ogHMRY7L0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248833360142-olh1bonei0f5s479cjs39g3eki1dfhph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248833360142:android:12256a29555595f6f4d75f",
+        "android_client_info": {
+          "package_name": "com.example.testfirebase1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248833360142-olh1bonei0f5s479cjs39g3eki1dfhph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMW7t0lYGM_pwwQCSSSQmsH_ogHMRY7L0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248833360142-olh1bonei0f5s479cjs39g3eki1dfhph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

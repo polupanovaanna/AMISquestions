@@ -1,47 +1,58 @@
 package ru.fmcs.hse.database;
 
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class Controller {
-    private DatabaseReference mDatabase;
+    private final DatabaseReference mDatabase;
+
+    public Controller(DatabaseReference mDatabase) {
+        this.mDatabase = mDatabase;
+    }
 
     public void addUser(String name) {
         mDatabase.child(User.GROUP_ID).child(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User checked = snapshot.getValue(User.class);
-                if (checked != null) {
-                    throw new IllegalArgumentException("No such user");
+                if (checked == null) {
+                    String nId = mDatabase.getKey();
+                    User nUser = new User(name);
+                    nUser.setUserId(nId);
+                    mDatabase.setValue(nUser);
+                } else {
+                    //TODO say to view that user exists
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                throw new UnknownError("Something in db went wrong");
+
             }
         });
-
-        String nId = mDatabase.getKey();
-        User nUser = new User(nId, name);
-        mDatabase.setValue(nUser);
     }
 
-    public User getUser(String userId) {
-        final List<User> user = new ArrayList<>();
+    public void getUserById(String userId/*TODO argument to se view*/) {
         mDatabase.child(User.GROUP_ID).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user.set(0, snapshot.getValue(User.class));//Suggest something like frontend.do_something?
+                if (snapshot.getValue(User.class) != null) {
+                    //view.doSomething(snapshot.getValue(User.class))
+                }
             }
 
             @Override
@@ -49,14 +60,74 @@ public class Controller {
                 throw new IllegalArgumentException("No such user");
             }
         });
-        return user.get(0);
     }
 
-    public void createPost(@NotNull String text, User user) {
-
+    public void addPost(@NotNull String text, User user) {
+        String id = mDatabase.child(Post.GROUP_ID).getKey();
+        Post nPost = new Post(id, user, text);
+        mDatabase.child(Post.GROUP_ID).setValue(nPost);
     }
 
-    public Stream<Post> posts() {
-        return new ArrayList<Post>().stream();
+    public void getAllUsers(/*TODO something like*/TextView result) {
+        mDatabase.child(User.GROUP_ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    if (snap.getValue(User.class) != null) {
+                        result.setText(snap.getValue(User.class).getUserName());
+                        //view actions
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    //Example
+    public void getOnePost(TextView res) {
+        mDatabase.child(Post.GROUP_ID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue(Post.class) != null) {
+                    res.setText(snapshot.getValue(Post.class).getText());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void addComment(Post post, Comment comment) {
+        post.addComment(comment);
+        String key = mDatabase.child(Post.GROUP_ID).child(post.getId()).child(Comment.GROUP_ID).getKey();
+        comment.setId(key);
+        mDatabase.child(Post.GROUP_ID).child(Comment.GROUP_ID).setValue(comment);
+        mDatabase.child(Post.GROUP_ID).child(post.getId()).setValue(post);
+    }
+
+    public void getComments(Post post /*, view*/) {
+        mDatabase.child(Post.GROUP_ID).child(Comment.GROUP_ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    //do something with dataSnapshot.getValue(Comment.class)
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    void push() {
+        mDatabase.push();
     }
 }
