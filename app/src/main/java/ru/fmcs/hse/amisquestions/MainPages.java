@@ -120,7 +120,7 @@ public class MainPages extends Fragment {
                             Toast.makeText(((AppCompatActivity)getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 3) {
-                            ((AppCompatActivity)getActivity()).getSupportFragmentManager()
+                            ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new TestButton())
                                     .commit();
