@@ -18,11 +18,13 @@ import java.util.Map;
 public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     DatabaseReference databaseRef;
     final Map<String, Integer> currentPosts = new HashMap<>();
-    Class<?> clz;
-    ValueEventListener updater;
-    RecyclerView.Adapter<T> adapter;
-    ArrayList dataHolder;
-    DatabaseOrdering order= Ordering.DEFAULT;
+    private Class<?> clz;
+    private ValueEventListener updater;
+    private RecyclerView.Adapter<T> adapter;
+    private ArrayList dataHolder;
+    private DatabaseOrdering order= Ordering.DEFAULT;
+    private boolean reversed = false;
+    private int limit = 3;
     public PrewiewAdapterWrapper(Class<?> componentType) {
         clz = componentType;
     }
@@ -45,11 +47,10 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
                         if (currentPosts.containsKey(post.getKey())) {
                             holder.set(currentPosts.get(post.getKey()), post.getValue(clz));
                             adapter.notifyItemChanged(currentPosts.get(post.getKey()));
-                        } else {
+                        } else if(holder.size() < limit) {
                             currentPosts.put(post.getKey(), holder.size());
                             holder.add(post.getValue(clz));
                             adapter.notifyDataSetChanged();
-                            System.out.println(holder.size());
                         }
                     }
                 }
@@ -64,14 +65,24 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     }
     public void changeOrdering(DatabaseOrdering nOrder){
         stopUpdating();
+        stopUpdating();
         order = nOrder;
         dataHolder.clear();
         currentPosts.clear();
         adapter.notifyDataSetChanged();
         startUpdating();
     }
+    public void reverse(){
+        reversed = !reversed;
+        stopUpdating();
+        startUpdating();
+    }
     private void startUpdating() {
-        order.getQuery(databaseRef).addValueEventListener(updater);
+        if(!reversed) {
+            order.getQuery(databaseRef).limitToFirst(limit).addValueEventListener(updater);
+        }else{
+            order.getQuery(databaseRef).limitToLast(limit).addValueEventListener(updater);
+        }
     }
     private void stopUpdating(){
         databaseRef.removeEventListener(updater);

@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import ru.fmcs.hse.database.Ordering;
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
 
@@ -22,11 +23,19 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     private final DatabaseReference postRef = FirebaseDatabase.getInstance().getReference(Post.GROUP_ID);
     public static int adapterNumber = 0;
     final ArrayList<Post> posts = new ArrayList<>();
+    private boolean reversed = false;
     PrewiewAdapterWrapper<PostPreviewHolder> db = new PrewiewAdapterWrapper<>(Post.class);
+
+    private void reverse() {
+        reversed = !reversed;
+        db.reverse();
+    }
 
     public PostPreviewAdapter() {
         adapterNumber += 1;
         db.init(this, posts);
+        db.changeOrdering(Ordering.VIEWS_REVERSED);
+        db.reverse();
     }
 
     @NonNull
@@ -73,8 +82,12 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         }
 
         void bind(int position) {
-            id = position;
-            PostPreview.setText(posts.get(position).getText());
+            if (!reversed) {
+                id = position;
+                PostPreview.setText(posts.get(position).getText());
+            } else {
+                PostPreview.setText(posts.get(posts.size() - 1 - position).getText());
+            }
         }
     }
 }
