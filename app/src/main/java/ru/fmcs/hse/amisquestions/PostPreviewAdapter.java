@@ -1,5 +1,7 @@
 package ru.fmcs.hse.amisquestions;
 
+
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
@@ -28,7 +28,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     public PostPreviewAdapter() {
         adapterNumber += 1;
-        db.init(this, posts, "numberOfViews");
+        db.init(this, posts);
     }
 
     @NonNull
