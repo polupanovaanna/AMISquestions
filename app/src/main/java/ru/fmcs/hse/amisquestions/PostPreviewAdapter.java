@@ -23,12 +23,9 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     private final DatabaseReference postRef = FirebaseDatabase.getInstance().getReference(Post.GROUP_ID);
     public static int adapterNumber = 0;
     final ArrayList<Post> posts = new ArrayList<>();
-    private boolean reversed = false;
     PrewiewAdapterWrapper<PostPreviewHolder> db = new PrewiewAdapterWrapper<>(Post.class);
 
-    @Deprecated
     private void reverse() {
-        reversed = !reversed;
         db.reverse();
     }
 
@@ -36,7 +33,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         adapterNumber += 1;
         db.init(this, posts);
         db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
-        //reverse();
+        reverse();
     }
 
     @NonNull
@@ -85,11 +82,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 return;
             }
             id = position;
-            if (!reversed) {
-                PostPreview.setText(posts.get(position).getText());
-            } else {
-                PostPreview.setText(posts.get(posts.size() - 1 - position).getText());
-            }
+            PostPreview.setText(posts.get(position).getText());
         }
     }
 }

@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,19 +43,22 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
         updater = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<DataSnapshot> tmp = new ArrayList<>();
                 for (DataSnapshot post : snapshot.getChildren()) {
+                    tmp.add(post);
+                }
+                if(reversed) Collections.reverse(tmp);
+                for(DataSnapshot post : tmp){
                     if (post.hasChildren() && post.getKey() != null) {
                         if (currentPosts.containsKey(post.getKey())) {
                             holder.set(currentPosts.get(post.getKey()), post.getValue(clz));
-                            adapter.notifyDataSetChanged();
-                            //adapter.notifyItemChanged(currentPosts.get(post.getKey()));
-                        } else if (holder.size() < limit) {
+                        } else {
                             currentPosts.put(post.getKey(), holder.size());
                             holder.add(post.getValue(clz));
-                            adapter.notifyDataSetChanged();
                         }
                     }
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
