@@ -1,7 +1,5 @@
 package ru.fmcs.hse.amisquestions;
 
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

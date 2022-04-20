@@ -6,7 +6,7 @@ import java.util.List;
 public class Post extends ContentObj{
 
     public static String GROUP_ID = "posts";
-    private int numberOfComments = 0;
+    public int numberOfComments = 0;
     List<String> listOfCommentsId = new ArrayList<>();
     List<String> tags = new ArrayList<>();
     public Post(){
