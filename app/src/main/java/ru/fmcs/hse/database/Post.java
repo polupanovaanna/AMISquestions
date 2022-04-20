@@ -7,8 +7,8 @@ public class Post extends ContentObj{
 
     public static String GROUP_ID = "posts";
     public int numberOfComments = 0;
-    List<String> listOfCommentsId = new ArrayList<>();
-    List<String> tags = new ArrayList<>();
+    public List<String> listOfCommentsId = new ArrayList<>();
+    public List<String> tags = new ArrayList<>();
     public Post(){
     }
     public Post(String authorId, String text) {

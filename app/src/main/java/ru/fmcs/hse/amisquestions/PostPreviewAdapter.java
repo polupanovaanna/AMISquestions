@@ -26,6 +26,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     private boolean reversed = false;
     PrewiewAdapterWrapper<PostPreviewHolder> db = new PrewiewAdapterWrapper<>(Post.class);
 
+    @Deprecated
     private void reverse() {
         reversed = !reversed;
         db.reverse();
@@ -34,8 +35,8 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     public PostPreviewAdapter() {
         adapterNumber += 1;
         db.init(this, posts);
-        db.changeOrdering(Ordering.VIEWS_REVERSED);
-        db.reverse();
+        db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
+        //reverse();
     }
 
     @NonNull
@@ -61,7 +62,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return posts.size() + 1;
     }
 
     class PostPreviewHolder extends RecyclerView.ViewHolder {
@@ -73,17 +74,18 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
             super(itemView);
             PostPreview = itemView.findViewById(R.id.number_of_post);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show();
-                }
-            });
+            itemView.setOnClickListener(view -> Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
         }
 
         void bind(int position) {
+            if (position >= posts.size() && posts.size() > 0) {
+                db.getMore(posts.get(posts.size() - 1).getNumberOfViews());//get parameter you need
+                return;
+            } else if (position >= posts.size()) {
+                return;
+            }
+            id = position;
             if (!reversed) {
-                id = position;
                 PostPreview.setText(posts.get(position).getText());
             } else {
                 PostPreview.setText(posts.get(posts.size() - 1 - position).getText());

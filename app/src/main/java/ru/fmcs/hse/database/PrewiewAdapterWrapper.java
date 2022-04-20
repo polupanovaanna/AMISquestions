@@ -1,7 +1,6 @@
 package ru.fmcs.hse.database;
 
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,9 +21,10 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     private ValueEventListener updater;
     private RecyclerView.Adapter<T> adapter;
     private ArrayList dataHolder;
-    private DatabaseOrdering order= Ordering.DEFAULT;
+    private DatabaseOrdering order = Ordering.DEFAULT;
     private boolean reversed = false;
     private int limit = 3;
+
     public PrewiewAdapterWrapper(Class<?> componentType) {
         clz = componentType;
     }
@@ -46,8 +46,9 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
                     if (post.hasChildren() && post.getKey() != null) {
                         if (currentPosts.containsKey(post.getKey())) {
                             holder.set(currentPosts.get(post.getKey()), post.getValue(clz));
-                            adapter.notifyItemChanged(currentPosts.get(post.getKey()));
-                        } else if(holder.size() < limit) {
+                            adapter.notifyDataSetChanged();
+                            //adapter.notifyItemChanged(currentPosts.get(post.getKey()));
+                        } else if (holder.size() < limit) {
                             currentPosts.put(post.getKey(), holder.size());
                             holder.add(post.getValue(clz));
                             adapter.notifyDataSetChanged();
@@ -63,28 +64,52 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
         };
         startUpdating();
     }
-    public void changeOrdering(DatabaseOrdering nOrder){
+
+    public void changeOrdering(DatabaseOrdering nOrder) {
         stopUpdating();
         stopUpdating();
         order = nOrder;
-        dataHolder.clear();
-        currentPosts.clear();
         adapter.notifyDataSetChanged();
         startUpdating();
     }
-    public void reverse(){
+
+    public void getMore(String value) {
+        limit++;
+        databaseRef.removeEventListener(updater);
+        if (!reversed) {
+            order.getQuery(databaseRef).limitToFirst(limit).startAt(value).addValueEventListener(updater);
+        } else {
+            order.getQuery(databaseRef).limitToFirst(limit).endAt(value).addValueEventListener(updater);
+        }
+    }
+
+    public void getMore(int value) {
+        limit+=2;
+        databaseRef.removeEventListener(updater);
+        if (!reversed) {
+            order.getQuery(databaseRef).limitToFirst(limit).startAt(value).addValueEventListener(updater);
+        } else {
+            order.getQuery(databaseRef).limitToLast(limit).endAt(value).addValueEventListener(updater);
+        }
+    }
+
+    public void reverse() {
         reversed = !reversed;
         stopUpdating();
         startUpdating();
     }
+
     private void startUpdating() {
-        if(!reversed) {
+        if (!reversed) {
             order.getQuery(databaseRef).limitToFirst(limit).addValueEventListener(updater);
-        }else{
+        } else {
             order.getQuery(databaseRef).limitToLast(limit).addValueEventListener(updater);
         }
     }
-    private void stopUpdating(){
+
+    private void stopUpdating() {
         databaseRef.removeEventListener(updater);
+        dataHolder.clear();
+        currentPosts.clear();
     }
 }
