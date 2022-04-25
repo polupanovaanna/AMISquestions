@@ -102,6 +102,7 @@ public class MainPages extends Fragment {
                                 .withIconTintingEnabled(true)
                                 .withName("Кнопочка")
                                 .withSelectable(false)
+
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -147,9 +148,7 @@ public class MainPages extends Fragment {
 
     private void initFields() {
         mToolbar = mBinding.mainToolbar;
-
         //navigation = Navigation.findNavController(this, R.id.main_toolbar);
-
 
         FAB = mBinding.getRoot().findViewById(R.id.create_new_post);
         FAB.setOnClickListener(s);

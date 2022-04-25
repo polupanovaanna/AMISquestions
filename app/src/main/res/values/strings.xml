@@ -2,6 +2,7 @@
     <string name="app_name">AMISquestions</string>
     <string name="settings">Настройки</string>
     <string name="new_posts">Новые посты</string>
+    <string name="default_web_client_id_auth">AIzaSyDMW7t0lYGM_pwwQCSSSQmsH_ogHMRY7L0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
