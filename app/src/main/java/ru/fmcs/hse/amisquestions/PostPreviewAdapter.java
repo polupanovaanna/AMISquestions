@@ -17,15 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.prefs.PreferenceChangeEvent;
 
 import ru.fmcs.hse.database.Post;
 
@@ -52,8 +44,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                         }
                     }
                 }
-                System.out.println(currentPosts.size());
-
+                //System.out.println(currentPosts.size());
             }
 
             @Override
@@ -91,12 +82,13 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     class PostPreviewHolder extends RecyclerView.ViewHolder {
 
-        TextView PostPreview;
+        TextView PostText;
+        TextView PostAuthor;
         int id = -1;
 
         public PostPreviewHolder(@NonNull View itemView) {
             super(itemView);
-            PostPreview = itemView.findViewById(R.id.number_of_post);
+            PostText = itemView.findViewById(R.id.post_text);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,7 +101,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         void bind(int position) {
             id = position;
             if(currentPosts.size() > position){
-                PostPreview.setText(posts.get(position).getText());
+                PostText.setText(posts.get(position).getText());
             }
 
         }

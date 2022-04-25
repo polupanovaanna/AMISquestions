@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
-        System.out.println(getUserName());
         //подсвечивается красным но НИЧЕГО СТРАШНОГО :))))))))
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -63,11 +62,4 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }*/
 
-    public String getUserName() {
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        if (user != null) {
-            return user.getDisplayName();
-        }
-        return ANONYMOUS;
-    }
 }

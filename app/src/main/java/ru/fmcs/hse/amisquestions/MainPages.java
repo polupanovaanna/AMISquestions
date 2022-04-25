@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -40,12 +41,30 @@ public class MainPages extends Fragment {
     private FloatingActionButton FAB;
     private NavController navigation;
     View.OnClickListener s;
+    private FirebaseAuth mFirebaseAuth;
+
+    public String getUserName() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getDisplayName();
+        }
+        return "err";
+    }
+
+    public String getMail() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getEmail();
+        }
+        return "err";
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentMainPagesBinding.inflate(getLayoutInflater());
         newPostsFragment = new NewPostsFragment();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         s = Navigation.createNavigateOnClickListener(R.id.mainPages_to_createNewPost);
 
@@ -141,8 +160,8 @@ public class MainPages extends Fragment {
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
-                                .withName("Test Name")
-                                .withEmail("mail@mail.ru")
+                                .withName(getUserName())
+                                .withEmail(getMail())
                 ).build();
     }
 
