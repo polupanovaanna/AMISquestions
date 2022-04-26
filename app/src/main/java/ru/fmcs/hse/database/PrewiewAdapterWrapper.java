@@ -22,12 +22,16 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     private ValueEventListener updater;
     private RecyclerView.Adapter<T> adapter;
     private ArrayList dataHolder;
-    private DatabaseOrdering order = Ordering.DEFAULT;
+    private DatabaseOrdering currentOrder = Ordering.DEFAULT;
+    private DatabaseFiltering currentFilter = Ordering.DEFAULT_FILTER;
+    private DatabaseGlobalOrdering globalOrder;
+    private String currentFilterString = "";
     private boolean reversed = false;
     private int limit = 3;
 
     public PrewiewAdapterWrapper(Class<?> componentType) {
         clz = componentType;
+        updateOrder();
     }
 
     public void init(RecyclerView.Adapter<T> adapter, ArrayList holder) {
@@ -47,8 +51,8 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
                 for (DataSnapshot post : snapshot.getChildren()) {
                     tmp.add(post);
                 }
-                if(reversed) Collections.reverse(tmp);
-                for(DataSnapshot post : tmp){
+                if (reversed) Collections.reverse(tmp);
+                for (DataSnapshot post : tmp) {
                     if (post.hasChildren() && post.getKey() != null) {
                         if (currentPosts.containsKey(post.getKey())) {
                             holder.set(currentPosts.get(post.getKey()), post.getValue(clz));
@@ -71,8 +75,7 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
 
     public void changeOrdering(DatabaseOrdering nOrder) {
         stopUpdating();
-        stopUpdating();
-        order = nOrder;
+        globalOrder = Ordering.map(currentFilter, nOrder, currentFilterString);
         adapter.notifyDataSetChanged();
         startUpdating();
     }
@@ -81,19 +84,49 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
         limit++;
         databaseRef.removeEventListener(updater);
         if (!reversed) {
-            order.getQuery(databaseRef).limitToFirst(limit).startAt(value).addValueEventListener(updater);
+            globalOrder.getQuery(databaseRef).limitToFirst(limit).startAt(value).addValueEventListener(updater);
         } else {
-            order.getQuery(databaseRef).limitToFirst(limit).endAt(value).addValueEventListener(updater);
+            globalOrder.getQuery(databaseRef).limitToFirst(limit).endAt(value).addValueEventListener(updater);
         }
     }
 
+    private void updateOrder() {
+        globalOrder = Ordering.map(currentFilter, currentOrder, currentFilterString);
+    }
+
+    public void addFiltering(DatabaseFiltering nFilter, String child) {
+        stopUpdating();
+        currentFilter = nFilter;
+        currentFilterString = child;
+        updateOrder();
+        adapter.notifyDataSetChanged();
+        startUpdating();
+    }
+
+    public void removeFilter() {
+        stopUpdating();
+        currentFilter = Ordering.DEFAULT_FILTER;
+        currentFilterString = null;
+        updateOrder();
+        startUpdating();
+    }
+
+    public void removeOrder() {
+        stopUpdating();
+        currentOrder = Ordering.DEFAULT;
+        updateOrder();
+        startUpdating();
+    }
+
     public void getMore(int value) {
-        limit+=2;
+        limit += 2;
         databaseRef.removeEventListener(updater);
-        if (!reversed) {
-            order.getQuery(databaseRef).limitToFirst(limit).startAt(value).addValueEventListener(updater);
-        } else {
-            order.getQuery(databaseRef).limitToLast(limit).endAt(value).addValueEventListener(updater);
+        if (currentFilter.equals(Ordering.DEFAULT_FILTER)) {
+            if (!reversed) {
+                globalOrder.getQuery(databaseRef).limitToFirst(limit).startAt(value).addValueEventListener(updater);
+            } else {
+                globalOrder.getQuery(databaseRef).limitToLast(limit).endAt(value).addValueEventListener(updater);
+            }
         }
     }
 
@@ -104,10 +137,15 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     }
 
     private void startUpdating() {
-        if (!reversed) {
-            order.getQuery(databaseRef).limitToFirst(limit).addValueEventListener(updater);
+        if (currentFilter.equals(Ordering.DEFAULT_FILTER)) {
+
+            if (!reversed) {
+            globalOrder.getQuery(databaseRef).limitToFirst(limit).addValueEventListener(updater);
         } else {
-            order.getQuery(databaseRef).limitToLast(limit).addValueEventListener(updater);
+            globalOrder.getQuery(databaseRef).limitToLast(limit).addValueEventListener(updater);
+        }
+        }else{
+            globalOrder.getQuery(databaseRef).addValueEventListener(updater);
         }
     }
 

@@ -4,6 +4,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 @FunctionalInterface
-public interface DatabaseOrdering {
-    Query getQuery(Query ref);
+public interface DatabaseGlobalOrdering {
+    Query getQuery(DatabaseReference ref);
 }
