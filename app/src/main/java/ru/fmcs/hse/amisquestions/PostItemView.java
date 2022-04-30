@@ -9,13 +9,16 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import ru.fmcs.hse.database.Post;
+
 public class PostItemView extends LinearLayout {
     private TextView postText;
     private TextView authorsName;
     private ImageView avatarImage; //это пусть будет потом, пока не трогаю :(
-
-    public PostItemView(Context context) {
+    private Post postValue;
+    public PostItemView(Context context, Post post) {
         super(context);
+        postValue = post;
         initializeViews(context);
     }
 
@@ -37,9 +40,9 @@ public class PostItemView extends LinearLayout {
         authorsName = findViewById(R.id.NameView);
         avatarImage = findViewById(R.id.Avatar);
         //хочу получить текст поста
-        postText.setText("Тестирую текст у поста");
+        postText.setText(postValue.getText());
         //хочу получить имя автора
-        authorsName.setText("Идеал Идеалов");
+        authorsName.setText(postValue.getAuthor());
         //хочу получить аватарку...
 
     }

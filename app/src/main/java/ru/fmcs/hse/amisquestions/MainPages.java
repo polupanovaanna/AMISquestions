@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -78,7 +79,7 @@ public class MainPages extends Fragment {
 
     private void createDrawer() {
         mDrawer = new DrawerBuilder()
-                .withActivity(((AppCompatActivity) getActivity()))
+                .withActivity(((AppCompatActivity)getActivity()))
                 .withToolbar(mToolbar)
                 .withActionBarDrawerToggle(true)
                 .withSelectedItem(-1)
@@ -95,7 +96,6 @@ public class MainPages extends Fragment {
                                 .withIconTintingEnabled(true)
                                 .withName("Настройки")
                                 .withSelectable(false),
-
                         new PrimaryDrawerItem()
                                 .withIdentifier(102)
                                 .withIconTintingEnabled(true)
@@ -106,18 +106,18 @@ public class MainPages extends Fragment {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (position == 1) {
-                            ((AppCompatActivity) getActivity()).getSupportFragmentManager()
+                            ((AppCompatActivity)getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, newPostsFragment)
                                     .commit();
-                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+                            Toast.makeText(((AppCompatActivity)getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 2) {
-                            ((AppCompatActivity) getActivity()).getSupportFragmentManager()
+                            ((AppCompatActivity)getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new SettingsFragment())
                                     .commit();
-                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+                            Toast.makeText(((AppCompatActivity)getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 3) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
@@ -134,7 +134,7 @@ public class MainPages extends Fragment {
 
     private void createHeader() {
         mHeader = new AccountHeaderBuilder()
-                .withActivity(((AppCompatActivity) getActivity()))
+                .withActivity(((AppCompatActivity)getActivity()))
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()

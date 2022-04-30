@@ -18,6 +18,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+@Deprecated
 public class Controller {
     private final FirebaseDatabase mDatabase;
     public Controller() {
