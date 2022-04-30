@@ -2,6 +2,7 @@ package ru.fmcs.hse.amisquestions;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -18,19 +19,16 @@ public class MainActivity extends AppCompatActivity {
     static Controller controller = new Controller();
 
     public static final String ANONYMOUS = "anonymous";
-
     private GoogleSignInClient mSignInClient;
-
     private ActivityMainBinding mBinding;
-
     private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        //mBinding.signOut.setOnClickListener(v -> signOut());
         mFirebaseAuth = FirebaseAuth.getInstance();
         if (mFirebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(this, SignInActivity.class));
@@ -43,16 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mSignInClient = GoogleSignIn.getClient(this, gso);
-        //setProfile();
-
     }
 
-    /*private void signOut() {
+    private void signOut() {
         mFirebaseAuth.signOut();
-        //mSignInClient.signOut();
+        mSignInClient.signOut();
         startActivity(new Intent(this, SignInActivity.class));
         finish();
-    }*/
+    }
 
     /*private String getUserPhotoUrl() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();

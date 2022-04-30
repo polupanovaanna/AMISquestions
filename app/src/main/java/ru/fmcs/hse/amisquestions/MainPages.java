@@ -116,13 +116,13 @@ public class MainPages extends Fragment {
                                 .withIdentifier(101)
                                 .withIconTintingEnabled(true)
                                 .withName("Настройки")
-                                .withSelectable(false),
+                                .withSelectable(false)
 
-                        new PrimaryDrawerItem()
+                        /*new PrimaryDrawerItem()
                                 .withIdentifier(102)
                                 .withIconTintingEnabled(true)
                                 .withName("Кнопочка")
-                                .withSelectable(false)
+                                .withSelectable(false)*/
 
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -142,13 +142,13 @@ public class MainPages extends Fragment {
                                     .commit();
                             Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
-                        } else if (position == 3) {
+                        }/* else if (position == 3) {
 
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.dataContainer, new TestButton())
                                     .commit();
-                        }
+                        }*/
                         // Toast.makeText(getApplicationContext(), Integer.toString(position + 5), Toast.LENGTH_LONG - 1).show();
                         return false;
                     }

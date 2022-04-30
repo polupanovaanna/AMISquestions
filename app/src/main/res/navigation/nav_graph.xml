@@ -9,7 +9,7 @@
         android:id="@+id/mainPages"
         android:name="ru.fmcs.hse.amisquestions.MainPages"
         android:label="main_pages"
-        tools:layout="@layout/fragment_main_pages" >
+        tools:layout="@layout/fragment_main_pages">
         <action
             android:id="@+id/mainPages_to_createNewPost"
             app:destination="@id/createNewPost" />
@@ -19,7 +19,7 @@
         android:id="@+id/createNewPost"
         android:name="ru.fmcs.hse.amisquestions.CreateNewPost"
         android:label="fragment_create_new_post"
-        tools:layout="@layout/fragment_create_new_post" >
+        tools:layout="@layout/fragment_create_new_post">
         <action
             android:id="@+id/action_createNewPost_to_mainActivity"
             app:destination="@id/mainPages" />
@@ -28,7 +28,7 @@
         android:id="@+id/loginPage"
         android:name="ru.fmcs.hse.amisquestions.LoginPage"
         android:label="fragment_login_page"
-        tools:layout="@layout/fragment_login_page" >
+        tools:layout="@layout/fragment_login_page">
         <action
             android:id="@+id/logged_in_action"
             app:destination="@id/mainPages" />

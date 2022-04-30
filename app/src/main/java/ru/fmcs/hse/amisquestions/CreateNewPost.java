@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -34,6 +37,16 @@ public class CreateNewPost extends Fragment {
     MarkdownTextView MTV;
     Button postButton;
 
+    private FirebaseAuth mFirebaseAuth;
+
+    public String getUserId() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getUid();
+        }
+        return "err";
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,14 +65,15 @@ public class CreateNewPost extends Fragment {
         // mBinding.toolbar2;
         // mToolbar.setDisplayHomeAsUpEnabled(true);
         // mToolbar.dismissPopupMenus();
-        mToolbar.setTitle("Simple Sample");
+        mToolbar.setTitle("Добавление поста");
         //getActivity().setActionBar(mToolbar);
         postButton = view.findViewById(R.id.post_button);
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String post = MTV.getText();
-                MainActivity.controller.addPost(post, "serega");
+                MainActivity.controller.addPost(post, getUserId());
+                Navigation.findNavController(view).navigate(R.id.mainPages);
             }
         });
 
