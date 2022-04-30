@@ -5,6 +5,9 @@
     android:id="@+id/page_create_new_post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#28FF8C00"
+    android:foregroundTint="#4B8BC34A"
+    android:foregroundTintMode="add"
     tools:context=".CreateNewPost">
 
     <!--
@@ -16,7 +19,7 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="#FF9800"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         android:visibility="visible"
@@ -37,14 +40,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
-    <Button
+    <AppCompatButton
         android:id="@+id/post_button"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintTop_toBottomOf="@id/markdown_text"
+        android:layout_width="410dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FFB700"
+        android:text="Apply post"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="apply post"
-        />
+        app:layout_constraintTop_toBottomOf="@id/markdown_text"
+        app:strokeColor="#FF9800" />
 
 
     <!--
