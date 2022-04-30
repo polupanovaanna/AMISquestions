@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +48,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         View view = inflater.inflate(layoutId, parent, false);
 
         PostPreviewHolder holder = new PostPreviewHolder(view);
+        // TODO holder id, not
 
         return holder;
     }
@@ -56,13 +56,6 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     @Override
     public void onBindViewHolder(@NonNull PostPreviewHolder holder, int position) {
         holder.bind(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO go to post
-                Navigation.findNavController(view).navigate(R.id.main_to_post);
-            }
-        });
     }
 
     @Override
@@ -80,7 +73,8 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
             super(itemView);
             postText = itemView.findViewById(R.id.post_text);
             postAuthor = itemView.findViewById(R.id.author_name);
-            itemView.setOnClickListener(view -> Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
+            itemView.setOnClickListener(view ->
+                    Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
             itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
                 intent.putExtra("ru.hse.fcms.post_text", postText.getText());

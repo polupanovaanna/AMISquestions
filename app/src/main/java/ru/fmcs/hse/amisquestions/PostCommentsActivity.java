@@ -1,10 +1,16 @@
 package ru.fmcs.hse.amisquestions;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+import com.mikepenz.materialdrawer.Drawer;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
 
@@ -16,6 +22,8 @@ public class PostCommentsActivity extends AppCompatActivity {
     private ActivityPostCommentsBinding mPostCommentsBinding;
     protected RecyclerView mRecyclerView;
     private CommentViewAdapter adapter;
+    Toolbar mToolbar;
+    private Drawer mDrawer;
 
     private PostItemView post;
 
@@ -34,13 +42,20 @@ public class PostCommentsActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
+        mToolbar = findViewById(R.id.toolbar_pc);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setHasFixedSize(true);
         adapter = new CommentViewAdapter(100);
         mRecyclerView.setAdapter(adapter);
-    }
 
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
     @Override
     public void onResume() {
