@@ -31,7 +31,6 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         View view = inflater.inflate(layoutId, parent, false);
 
         CommentViewHolder holder = new CommentViewHolder(view);
-        // TODO holder id, not
 
         return holder;
     }

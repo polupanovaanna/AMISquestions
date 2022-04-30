@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +49,6 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         View view = inflater.inflate(layoutId, parent, false);
 
         PostPreviewHolder holder = new PostPreviewHolder(view);
-        // TODO holder id, not
 
         return holder;
     }
@@ -56,6 +56,13 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     @Override
     public void onBindViewHolder(@NonNull PostPreviewHolder holder, int position) {
         holder.bind(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO go to post
+                Navigation.findNavController(view).navigate(R.id.main_to_post);
+            }
+        });
     }
 
     @Override
