@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">248833360142-olh1bonei0f5s479cjs39g3eki1dfhph.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://hseoverflow-default-rtdb.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">248833360142</string>
+    <string name="google_api_key" translatable="false">AIzaSyDMW7t0lYGM_pwwQCSSSQmsH_ogHMRY7L0</string>
+    <string name="google_app_id" translatable="false">1:248833360142:android:55a314befe097761f4d75f</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDMW7t0lYGM_pwwQCSSSQmsH_ogHMRY7L0</string>
+    <string name="google_storage_bucket" translatable="false">hseoverflow.appspot.com</string>
+    <string name="project_id" translatable="false">hseoverflow</string>
+</resources>

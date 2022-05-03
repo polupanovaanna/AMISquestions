@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: io.noties.markwon:inline-parser:4.6.2@aar">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/6abe401183055f5e4a546a0adc05796d/transformed/inline-parser-4.6.2/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/726058346dd819defcba978536447494/transformed/inline-parser-4.6.2/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/0a629a15fda55fca3ac114c7476c6c19/transformed/inline-parser-4.6.2/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/726058346dd819defcba978536447494/transformed/inline-parser-4.6.2/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-3/726058346dd819defcba978536447494/transformed/inline-parser-4.6.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.noties.markwon/inline-parser/4.6.2/27333f6ba978344adda9ff0f933f540307109421/inline-parser-4.6.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.noties.markwon/inline-parser/4.6.2/a08329abd6f9b8b979617a39276044adccdf46f9/inline-parser-4.6.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

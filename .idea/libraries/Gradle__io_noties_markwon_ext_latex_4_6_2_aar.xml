@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: io.noties.markwon:ext-latex:4.6.2@aar">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/62b454fd08e2af042663b93b62ec6ca6/transformed/ext-latex-4.6.2/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/8d6296a7e09583bc43951fda3a44cc9d/transformed/ext-latex-4.6.2/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/839748a1b9877a3218bcf1f27a004879/transformed/ext-latex-4.6.2/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/8d6296a7e09583bc43951fda3a44cc9d/transformed/ext-latex-4.6.2/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-3/8d6296a7e09583bc43951fda3a44cc9d/transformed/ext-latex-4.6.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.noties.markwon/ext-latex/4.6.2/a060382492083a7e1158eb58292ecde1b99c3f71/ext-latex-4.6.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.noties.markwon/ext-latex/4.6.2/5ef94ea41fd97d879330e35c8097906362f6da63/ext-latex-4.6.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
