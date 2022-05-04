@@ -64,7 +64,7 @@ public class MainPages extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = FragmentMainPagesBinding.inflate(getLayoutInflater());
         newPostsFragment = new NewPostsFragment();
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
         s = Navigation.createNavigateOnClickListener(R.id.mainPages_to_createNewPost);
 
         return mBinding.getRoot();
