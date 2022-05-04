@@ -18,7 +18,7 @@ public class PostItemView extends LinearLayout {
     private Post postValue;
     public PostItemView(Context context, Post post) {
         super(context);
-        postValue = post;
+        //postValue = post;
         initializeViews(context);
     }
 
@@ -40,10 +40,18 @@ public class PostItemView extends LinearLayout {
         authorsName = findViewById(R.id.NameView);
         avatarImage = findViewById(R.id.Avatar);
         //хочу получить текст поста
-        postText.setText(postValue.getText());
+        //postText.setText(postValue.getText());
         //хочу получить имя автора
-        authorsName.setText(postValue.getAuthor());
+        //authorsName.setText(postValue.getAuthor());
         //хочу получить аватарку...
 
+    }
+
+    public void setPostText(String text) {
+        postText.setText(text);
+    }
+
+    public void setAuthor(String author) {
+        authorsName.setText(author);
     }
 }

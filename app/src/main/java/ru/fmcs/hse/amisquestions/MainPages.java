@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -40,6 +41,23 @@ public class MainPages extends Fragment {
     private FloatingActionButton FAB;
     private NavController navigation;
     View.OnClickListener s;
+    private FirebaseAuth mFirebaseAuth;
+
+    public String getUserName() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getDisplayName();
+        }
+        return "err";
+    }
+
+    public String getMail() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getEmail();
+        }
+        return "err";
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,13 +83,6 @@ public class MainPages extends Fragment {
                 .beginTransaction()
                 .replace(R.id.dataContainer, new SettingsFragment())
                 .commit();
-        /*
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.dataContainer, new NewPostsFragment())
-                .commit();
-         */
-
 
         createHeader();
         createDrawer();
@@ -138,16 +149,13 @@ public class MainPages extends Fragment {
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
-                                .withName("Test Name")
-                                .withEmail("mail@mail.ru")
+                                .withName(getUserName())
+                                .withEmail(getMail())
                 ).build();
     }
 
     private void initFields() {
         mToolbar = mBinding.mainToolbar;
-
-        //navigation = Navigation.findNavController(this, R.id.main_toolbar);
-
 
         FAB = mBinding.getRoot().findViewById(R.id.create_new_post);
         FAB.setOnClickListener(s);

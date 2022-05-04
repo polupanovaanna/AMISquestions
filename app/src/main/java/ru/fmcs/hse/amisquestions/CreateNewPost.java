@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -34,11 +37,19 @@ public class CreateNewPost extends Fragment {
     MarkdownTextView MTV;
     Button postButton;
 
+    private FirebaseAuth mFirebaseAuth;
+
+    public String getUserId() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getUid();
+        }
+        return "err";
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_create_new_post, container, false);
         mBinding = FragmentCreateNewPostBinding.inflate(getLayoutInflater());
         return mBinding.getRoot();
     }
@@ -49,17 +60,14 @@ public class CreateNewPost extends Fragment {
         mToolbar = view.findViewById(R.id.toolbar2);
         MTV = view.findViewById(R.id.markdown_text);
 
-        // mBinding.toolbar2;
-        // mToolbar.setDisplayHomeAsUpEnabled(true);
-        // mToolbar.dismissPopupMenus();
-        mToolbar.setTitle("Simple Sample");
-        //getActivity().setActionBar(mToolbar);
+        mToolbar.setTitle("Добавление поста");
         postButton = view.findViewById(R.id.post_button);
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String post = MTV.getText();
-                MainActivity.controller.addPost(post, "serega");
+                MainActivity.controller.addPost(post, getUserId());
+                Navigation.findNavController(view).navigate(R.id.mainPages);
             }
         });
 
@@ -70,11 +78,6 @@ public class CreateNewPost extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        // mToolbar.setNavigationIcon(android.R.drawable.);
-        // getSupportActionBar().setDisplayShowHomeEnabled(true);
-        // getSupportActionBar().setTitle("MyTitle");
-
-        // createDrawer();
     }
 
     private ActionBar getSupportActionBar() {
@@ -86,46 +89,6 @@ public class CreateNewPost extends Fragment {
         mDrawer = new DrawerBuilder()
                 .withActivity(((AppCompatActivity) getActivity()))
                 .withToolbar(mToolbar)
-                /*
-                .withActionBarDrawerToggle(true)
-                .withSelectedItem(-1)
-                .addDrawerItems(
-                        new PrimaryDrawerItem()
-                                .withIdentifier(100)
-                                .withIconTintingEnabled(true)
-                                .withName("Новые посты")
-                                .withSelectable(false),
-
-                        new PrimaryDrawerItem()
-                                .withIdentifier(101)
-                                .withIconTintingEnabled(true)
-                                .withName("Настройки")
-                                .withSelectable(false)
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (position == 1) {
-                            ((AppCompatActivity)getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    // .replace(R.id.dataContainer, newPostsFragment)
-                                    .commit();
-                            Toast.makeText(((AppCompatActivity)getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
-
-                        } else if (position == 2) {
-                            ((AppCompatActivity)getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.dataContainer, new SettingsFragment())
-                                    .commit();
-                            Toast.makeText(((AppCompatActivity)getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
-
-                        }
-                        // Toast.makeText(getApplicationContext(), Integer.toString(position + 5), Toast.LENGTH_LONG - 1).show();
-                        return false;
-                    }
-                })
-
-                 */
                 .build();
     }
 }
