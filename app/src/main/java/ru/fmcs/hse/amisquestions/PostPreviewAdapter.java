@@ -84,7 +84,6 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         }
 
         void bind(int position) {
-
             if (position >= posts.size() && posts.size() > 0) {
                 db.getMore(posts.get(posts.size() - 1).getNumberOfViews());//get parameter you need
                 return;

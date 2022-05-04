@@ -51,7 +51,7 @@ public class TestButton extends Fragment {
 
                 String s = input.getText().toString();
                 Controller c = new Controller();
-                c.getOnePost(res);
+                c.addPost(s, "serega");
             }
         });
     }

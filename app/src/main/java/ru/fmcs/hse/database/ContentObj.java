@@ -14,7 +14,7 @@ public class ContentObj {
     protected ContentObj(){
     }
     protected ContentObj(String authorId, String text) {
-        this.author = author;
+        this.author = authorId;
         setText(text);
         timeCreated = new Date();
     }
