@@ -50,6 +50,7 @@ public class CreateNewPost extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mBinding = FragmentCreateNewPostBinding.inflate(getLayoutInflater());
         return mBinding.getRoot();
     }
