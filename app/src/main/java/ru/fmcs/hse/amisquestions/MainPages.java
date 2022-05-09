@@ -99,6 +99,12 @@ public class MainPages extends Fragment {
                         new PrimaryDrawerItem()
                                 .withIdentifier(100)
                                 .withIconTintingEnabled(true)
+                                .withName("Мой профиль")
+                                .withSelectable(false),
+
+                        new PrimaryDrawerItem()
+                                .withIdentifier(100)
+                                .withIconTintingEnabled(true)
                                 .withName("Новые посты")
                                 .withSelectable(false),
 
@@ -106,11 +112,6 @@ public class MainPages extends Fragment {
                                 .withIdentifier(101)
                                 .withIconTintingEnabled(true)
                                 .withName("Настройки")
-                                .withSelectable(false),
-                        new PrimaryDrawerItem()
-                                .withIdentifier(102)
-                                .withIconTintingEnabled(true)
-                                .withName("Кнопочка")
                                 .withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -119,24 +120,25 @@ public class MainPages extends Fragment {
                         if (position == 1) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, newPostsFragment)
+                                    .replace(R.id.dataContainer, new MyProfileFragment())
                                     .commit();
                             Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 2) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, new SettingsFragment())
+                                    .replace(R.id.dataContainer, newPostsFragment)
                                     .commit();
                             Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 3) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, new TestButton())
+                                    .replace(R.id.dataContainer, new SettingsFragment())
                                     .commit();
+                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+
                         }
-                        // Toast.makeText(getApplicationContext(), Integer.toString(position + 5), Toast.LENGTH_LONG - 1).show();
                         return false;
                     }
                 })
