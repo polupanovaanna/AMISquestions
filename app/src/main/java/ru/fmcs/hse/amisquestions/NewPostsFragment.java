@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-// import com.example.myapplication.databinding.FragmentNewPostsBinding;
-
 import java.util.Objects;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
