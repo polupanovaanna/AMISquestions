@@ -24,6 +24,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     private final DatabaseReference postRef = FirebaseDatabase.getInstance().getReference(Post.GROUP_ID);
     public static int adapterNumber = 0;
     final ArrayList<Post> posts = new ArrayList<>();
+    final ArrayList<String> keyHolder = new ArrayList<>();
     PrewiewAdapterWrapper<PostPreviewHolder> db = new PrewiewAdapterWrapper<>(Post.class);
 
     private void reverse() {
@@ -32,7 +33,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     public PostPreviewAdapter() {
         adapterNumber += 1;
-        db.init(this, posts);
+        db.init(this, posts, keyHolder);
         db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
         reverse();
     }
@@ -79,7 +80,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
                 intent.putExtra("ru.hse.fcms.post_text", postText.getText());
                 intent.putExtra("ru.hse.fcms.post_author", postAuthor.getText());
-                view.getContext().startActivity(intent);
+                view.getContext().startActivity(intent);//somewhere should be added keyHolder.get(id) -- id of post
             });
         }
 

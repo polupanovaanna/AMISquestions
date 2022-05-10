@@ -22,6 +22,7 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     private ValueEventListener updater;
     private RecyclerView.Adapter<T> adapter;
     private ArrayList dataHolder;
+    private ArrayList<String> keyHolder;
     private DatabaseOrdering currentOrder = Ordering.DEFAULT;
     private DatabaseFiltering currentFilter = Ordering.DEFAULT_FILTER;
     private DatabaseGlobalOrdering globalOrder;
@@ -34,7 +35,7 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
         updateOrder();
     }
 
-    public void init(RecyclerView.Adapter<T> adapter, ArrayList holder) {
+    public void init(RecyclerView.Adapter<T> adapter, ArrayList holder, ArrayList<String> keyHolder) {
 
         try {
             databaseRef = FirebaseDatabase.getInstance().getReference((String)
@@ -59,6 +60,7 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
                         } else {
                             currentPosts.put(post.getKey(), holder.size());
                             holder.add(post.getValue(clz));
+                            if(keyHolder != null)keyHolder.add(post.getKey());
                         }
                     }
                 }
@@ -152,6 +154,7 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     private void stopUpdating() {
         databaseRef.removeEventListener(updater);
         dataHolder.clear();
+        if(keyHolder != null)keyHolder.clear();
         currentPosts.clear();
     }
 }

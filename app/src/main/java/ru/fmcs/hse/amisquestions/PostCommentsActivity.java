@@ -16,6 +16,8 @@ import android.widget.EditText;
 import com.mikepenz.materialdrawer.Drawer;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
+import ru.fmcs.hse.database.Comment;
+import ru.fmcs.hse.database.Controller;
 
 public class PostCommentsActivity extends AppCompatActivity {
 
@@ -68,8 +70,8 @@ public class PostCommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String comment = commentText.getText().toString();
-                //ВОТ ТУТ ДОБАВЛЕНИЕ ПО КНОПКЕ
-                //MainActivity.controller.addPost(post, getUserId());
+                Controller c = new Controller();
+                c.addComment("-N07NRctppLGNqAYdQL2", new Comment("hater", comment));//TODO get key
                 commentText.getText().clear();
             }
         });

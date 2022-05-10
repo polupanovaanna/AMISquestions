@@ -10,14 +10,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
+
+import ru.fmcs.hse.database.Comment;
+import ru.fmcs.hse.database.Ordering;
+import ru.fmcs.hse.database.PrewiewAdapterWrapper;
+
 public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.CommentViewHolder> {
 
     int numberItems;
     public static int adapterNumber = 0;
-
+    PrewiewAdapterWrapper<CommentViewHolder> db = new PrewiewAdapterWrapper<>(Comment.class);
+    ArrayList<Comment> comments = new ArrayList<>();
+    String postKey = "-N07NRctppLGNqAYdQL2"; //TODO get post key
     public CommentViewAdapter(int cnt) {
         numberItems = cnt;
         adapterNumber += 1;
+        db.init(this, comments, null);
+        db.addFiltering(Ordering.CommentsOrdering.POST_COMMENTS, postKey);
     }
 
     @NonNull
@@ -43,7 +55,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
 
     @Override
     public int getItemCount() {
-        return numberItems;
+        return comments.size()+1;
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +77,11 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
 
         void bind(int position) {
             id = position;
-            CommentView.setText(String.valueOf(position) + " Добавим еще краткого описания в пару слов");
+            if (position >= comments.size()) {
+                return;
+            }
+            CommentView.setText(comments.get(position).getText());
+            //may be added author?
         }
     }
 }
