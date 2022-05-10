@@ -1,6 +1,8 @@
 package ru.fmcs.hse.database;
 
 
+import com.google.firebase.database.DatabaseReference;
+
 public class Ordering {
     public static final DatabaseOrdering DEFAULT = (ref) -> ref;
     public static final DatabaseFiltering DEFAULT_FILTER = (ref, str)->ref;
@@ -16,7 +18,7 @@ public class Ordering {
     }
 
     public static class CommentsOrdering{
-        //TODO
+        public static final DatabaseFiltering POST_COMMENTS = DatabaseReference::child;
     }
     public static DatabaseGlobalOrdering map(DatabaseFiltering filter, DatabaseOrdering order, String str){
         return (ref)->order.getQuery(filter.filter(ref, str));

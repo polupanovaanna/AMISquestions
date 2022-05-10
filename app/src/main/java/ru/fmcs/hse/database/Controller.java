@@ -109,12 +109,9 @@ public class Controller {
         });
     }
 
-    public void addComment(Post post, Comment comment) {
-        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
-        //post.addComment(comment);
-        //String key = ref.child(post.getId()).child(Comment.GROUP_ID).getKey();
-        //ref.child(post.getId()).child(Comment.GROUP_ID).setValue(comment);
-        //ref.child(post.getId()).setValue(post);
+    public void addComment(String postKey, Comment comment) {
+        DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postKey);
+        ref.push().setValue(comment);
     }
 
     public void getComments(Post post /*, view*/) {

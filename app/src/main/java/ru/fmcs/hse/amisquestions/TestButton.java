@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.stream.Stream;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentTestButtonBinding;
+import ru.fmcs.hse.database.Comment;
 import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.User;
@@ -51,7 +52,7 @@ public class TestButton extends Fragment {
 
                 String s = input.getText().toString();
                 Controller c = new Controller();
-                c.addPost(s, "serega");
+                c.addComment("-N07NRctppLGNqAYdQL2", new Comment("hater", s));
             }
         });
     }
