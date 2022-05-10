@@ -16,31 +16,59 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/RecyclerViewComments"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pc"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintVertical_bias="0.224" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewComments"
-        android:layout_width="366dp"
-        android:layout_height="369dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="361dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="175dp"
         android:background="#17FFC107"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_pc" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_pc"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="272dp"
         android:background="#FF9800"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/RecyclerViewComments"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?homeAsUpIndicator" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/comment_input"
+        android:layout_width="255dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="6dp"
+        android:hint="введите комментарий"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/add_comment_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RecyclerViewComments"
+        app:layout_constraintVertical_bias="0.647" />
+
+    <Button
+        android:id="@+id/add_comment_button"
+        android:layout_width="67dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="46dp"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/comment_input"
+        app:layout_constraintTop_toBottomOf="@+id/RecyclerViewComments"
+        app:layout_constraintVertical_bias="0.98" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
