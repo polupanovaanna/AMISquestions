@@ -10,6 +10,8 @@
         android:id="@+id/postList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#25FF9800"
+        android:backgroundTint="#E2FF9800"
         android:clipToPadding="false"
         android:padding="5dp"
         android:scrollbars="vertical"

@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -39,13 +41,30 @@ public class MainPages extends Fragment {
     private FloatingActionButton FAB;
     private NavController navigation;
     View.OnClickListener s;
+    private FirebaseAuth mFirebaseAuth;
+
+    public String getUserName() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getDisplayName();
+        }
+        return "err";
+    }
+
+    public String getMail() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            return user.getEmail();
+        }
+        return "err";
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentMainPagesBinding.inflate(getLayoutInflater());
         newPostsFragment = new NewPostsFragment();
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
         s = Navigation.createNavigateOnClickListener(R.id.mainPages_to_createNewPost);
 
         return mBinding.getRoot();
@@ -64,13 +83,6 @@ public class MainPages extends Fragment {
                 .beginTransaction()
                 .replace(R.id.dataContainer, new SettingsFragment())
                 .commit();
-        /*
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.dataContainer, new NewPostsFragment())
-                .commit();
-         */
-
 
         createHeader();
         createDrawer();
@@ -87,6 +99,12 @@ public class MainPages extends Fragment {
                         new PrimaryDrawerItem()
                                 .withIdentifier(100)
                                 .withIconTintingEnabled(true)
+                                .withName("Мой профиль")
+                                .withSelectable(false),
+
+                        new PrimaryDrawerItem()
+                                .withIdentifier(100)
+                                .withIconTintingEnabled(true)
                                 .withName("Новые посты")
                                 .withSelectable(false),
 
@@ -94,12 +112,6 @@ public class MainPages extends Fragment {
                                 .withIdentifier(101)
                                 .withIconTintingEnabled(true)
                                 .withName("Настройки")
-                                .withSelectable(false),
-
-                        new PrimaryDrawerItem()
-                                .withIdentifier(102)
-                                .withIconTintingEnabled(true)
-                                .withName("Кнопочка")
                                 .withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -108,24 +120,25 @@ public class MainPages extends Fragment {
                         if (position == 1) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, newPostsFragment)
+                                    .replace(R.id.dataContainer, new MyProfileFragment())
                                     .commit();
                             Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 2) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, new SettingsFragment())
+                                    .replace(R.id.dataContainer, newPostsFragment)
                                     .commit();
                             Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
                         } else if (position == 3) {
                             ((AppCompatActivity) getActivity()).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.dataContainer, new TestButton())
+                                    .replace(R.id.dataContainer, new SettingsFragment())
                                     .commit();
+                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+
                         }
-                        // Toast.makeText(getApplicationContext(), Integer.toString(position + 5), Toast.LENGTH_LONG - 1).show();
                         return false;
                     }
                 })
@@ -138,16 +151,13 @@ public class MainPages extends Fragment {
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
-                                .withName("Test Name")
-                                .withEmail("mail@mail.ru")
+                                .withName(getUserName())
+                                .withEmail(getMail())
                 ).build();
     }
 
     private void initFields() {
         mToolbar = mBinding.mainToolbar;
-
-        //navigation = Navigation.findNavController(this, R.id.main_toolbar);
-
 
         FAB = mBinding.getRoot().findViewById(R.id.create_new_post);
         FAB.setOnClickListener(s);

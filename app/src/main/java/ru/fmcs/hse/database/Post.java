@@ -2,6 +2,7 @@ package ru.fmcs.hse.database;
 
 import java.util.ArrayList;
 import java.util.List;
+import ru.fmcs.hse.database.ContentObj;
 
 public class Post extends ContentObj{
 

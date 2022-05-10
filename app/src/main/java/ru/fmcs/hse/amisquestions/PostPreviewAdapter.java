@@ -1,6 +1,7 @@
 package ru.fmcs.hse.amisquestions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     public PostPreviewAdapter() {
         adapterNumber += 1;
         db.init(this, posts);
-        //db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
-        db.addFiltering(Ordering.PostOrdering.AUTHOR_NAME_FILTERING, "serega");
+        db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
         reverse();
     }
 
@@ -65,14 +65,22 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
     class PostPreviewHolder extends RecyclerView.ViewHolder {
 
-        TextView PostPreview;
+        TextView postText;
+        TextView postAuthor;
         int id = -1;
 
         public PostPreviewHolder(@NonNull View itemView) {
             super(itemView);
-            PostPreview = itemView.findViewById(R.id.number_of_post);
-
-            itemView.setOnClickListener(view -> Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
+            postText = itemView.findViewById(R.id.post_text);
+            postAuthor = itemView.findViewById(R.id.author_name);
+            itemView.setOnClickListener(view ->
+                    Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
+            itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
+                intent.putExtra("ru.hse.fcms.post_text", postText.getText());
+                intent.putExtra("ru.hse.fcms.post_author", postAuthor.getText());
+                view.getContext().startActivity(intent);
+            });
         }
 
         void bind(int position) {
@@ -83,7 +91,8 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 return;
             }
             id = position;
-            PostPreview.setText(posts.get(position).getText());
+            postText.setText(posts.get(position).getText());
+            postAuthor.setText(posts.get(position).getAuthor());
         }
     }
 }
