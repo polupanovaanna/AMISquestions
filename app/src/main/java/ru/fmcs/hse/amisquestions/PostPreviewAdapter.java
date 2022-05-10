@@ -80,6 +80,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
                 intent.putExtra("ru.hse.fcms.post_text", postText.getText());
                 intent.putExtra("ru.hse.fcms.post_author", postAuthor.getText());
+                intent.putExtra("ru.hse.fcms.post_id", keyHolder.get(id));
                 view.getContext().startActivity(intent);//somewhere should be added keyHolder.get(id) -- id of post
             });
         }
