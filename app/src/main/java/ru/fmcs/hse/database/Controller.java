@@ -37,7 +37,7 @@ public class Controller {
     private void updatePost(String postKey, Post Post){
         HashMap<String, Object> update = new HashMap<>();
         update.put(postKey, Post);
-        mDatabase.getReference(Post.GROUP_ID).child(postKey).updateChildren(update);
+        mDatabase.getReference(Post.GROUP_ID).updateChildren(update);
     }
 
     public void addComment(String postKey, Comment comment) {
