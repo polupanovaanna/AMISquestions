@@ -34,8 +34,9 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     public PostPreviewAdapter() {
         adapterNumber += 1;
         db.init(this, posts, keyHolder);
-        db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
-        reverse();
+        db.addFiltering(Ordering.PostOrdering.TagFilter, "c++");
+        //db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
+        //reverse();
     }
 
     @NonNull
