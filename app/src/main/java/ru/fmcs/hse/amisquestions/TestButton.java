@@ -33,8 +33,6 @@ public class TestButton extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_test_button, container, false);
         mBinding = FragmentTestButtonBinding.inflate(getLayoutInflater());
         return mBinding.getRoot();
     }
@@ -46,14 +44,11 @@ public class TestButton extends Fragment {
         EditText input = view.findViewById(R.id.enterText);
         TextView res = view.findViewById(R.id.result);
 
-        but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        but.setOnClickListener(view1 -> {
 
-                String s = input.getText().toString();
-                Controller c = new Controller();
-                c.addComment("-N07NRctppLGNqAYdQL2", new Comment("hater", s));
-            }
+            String s = input.getText().toString();
+            Controller c = new Controller();
+            c.addComment("-N07NRctppLGNqAYdQL2", new Comment("hater", s));
         });
     }
 }

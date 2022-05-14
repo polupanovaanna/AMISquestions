@@ -49,8 +49,6 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         View view = inflater.inflate(layoutId, parent, false);
 
         PostPreviewHolder holder = new PostPreviewHolder(view);
-        // TODO holder id, not
-
         return holder;
     }
 
