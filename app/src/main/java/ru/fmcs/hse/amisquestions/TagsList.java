@@ -36,9 +36,7 @@ public class TagsList extends LinearLayout {
         initializeViews(context);
     }
 
-    //в констуктор приходится массив передавать, по другому код ниже будет ужасным, так и живем
-    public TagsList(Context context, @Nullable AttributeSet attrs, String[] langArray) {
-        super(context, attrs);
+    public void setTags(String[] langArray) {
         this.langArray = langArray;
         selectedPosition = new boolean[langArray.length];
     }
@@ -54,7 +52,7 @@ public class TagsList extends LinearLayout {
         super.onFinishInflate();
 
         TextView textView = findViewById(R.id.textView);
-        selectedPosition = new boolean[langArray.length]; //TODO переделать
+        //selectedPosition = new boolean[langArray.length]; //TODO переделать
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override

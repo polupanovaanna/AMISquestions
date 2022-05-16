@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Objects;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
+import ru.fmcs.hse.database.Tags;
 
 public class NewPostsFragment extends Fragment {
     private FragmentNewPostsBinding mBinding;
     private RecyclerView list;
     private PostPreviewAdapter adapter;
+    private TagsList tagsList;
+    private Tags tagsClass;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +34,11 @@ public class NewPostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         list = view.findViewById(R.id.postList);
+        tagsClass = new Tags();
+        tagsList = view.findViewById(R.id.tags_list);
+        Tags.TagsTable tags = tagsClass.getTagsTable();
+        tagsList.setTags(tags.getAllTags());
+
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         list.setLayoutManager(manager);
 

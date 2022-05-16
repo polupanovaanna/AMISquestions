@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AMISquestions">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.AMISquestions.NoActionBar" />
+        <activity
             android:name=".SignInActivity"
             android:exported="false" />
         <activity

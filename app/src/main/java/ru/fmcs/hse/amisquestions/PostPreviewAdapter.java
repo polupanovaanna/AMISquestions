@@ -16,6 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.latex.JLatexMathPlugin;
+import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
 import ru.fmcs.hse.database.Ordering;
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
@@ -72,13 +75,15 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
         public PostPreviewHolder(@NonNull View itemView) {
             super(itemView);
+
             postText = itemView.findViewById(R.id.post_text);
             postAuthor = itemView.findViewById(R.id.author_name);
             itemView.setOnClickListener(view ->
                     Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
             itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
-                intent.putExtra("ru.hse.fcms.post_text", postText.getText());
+                System.out.println(postText.getText());
+                intent.putExtra("ru.hse.fcms.post_text", postText.getText().toString());
                 intent.putExtra("ru.hse.fcms.post_author", postAuthor.getText());
                 intent.putExtra("ru.hse.fcms.post_id", keyHolder.get(id));
                 view.getContext().startActivity(intent);//somewhere should be added keyHolder.get(id) -- id of post
@@ -93,7 +98,18 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 return;
             }
             id = position;
-            postText.setText(posts.get(position).getText());
+
+            final Markwon markwon = Markwon.builder(itemView.getContext())
+                    .usePlugin(MarkwonInlineParserPlugin.create())
+                    .usePlugin(JLatexMathPlugin.create(postText.getTextSize(), new JLatexMathPlugin.BuilderConfigure() {
+                        @Override
+                        public void configureBuilder(@NonNull JLatexMathPlugin.Builder builder) {
+                            builder.inlinesEnabled(true);
+                        }
+                    }))
+                    .build();
+
+            markwon.setMarkdown(postText, posts.get(position).getText());
             postAuthor.setText(posts.get(position).getAuthor());
         }
     }

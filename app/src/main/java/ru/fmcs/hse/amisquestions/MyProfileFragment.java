@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentMyProfileBinding;
-import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
 
 
 public class MyProfileFragment extends Fragment {
