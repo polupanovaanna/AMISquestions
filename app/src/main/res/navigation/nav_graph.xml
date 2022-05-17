@@ -16,6 +16,9 @@
         <action
             android:id="@+id/main_to_post"
             app:destination="@id/postCommentsFragment" />
+        <action
+            android:id="@+id/mainPages_to_editProfile"
+            app:destination="@id/editProfile" />
     </fragment>
 
     <fragment
@@ -43,6 +46,15 @@
         tools:layout="@layout/fragment_post_comments" >
         <action
             android:id="@+id/post_to_main"
+            app:destination="@id/mainPages" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="ru.fmcs.hse.amisquestions.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/editProfile_to_mainPages"
             app:destination="@id/mainPages" />
     </fragment>
 </navigation>
