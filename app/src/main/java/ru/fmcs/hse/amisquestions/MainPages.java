@@ -23,6 +23,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentMainPagesBinding;
 
@@ -79,7 +80,7 @@ public class MainPages extends Fragment {
 
     private void initFunc() {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(mToolbar);
-        ((AppCompatActivity) requireActivity()).getSupportFragmentManager()
+        requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.dataContainer, new SettingsFragment())
                 .commit();
@@ -90,7 +91,7 @@ public class MainPages extends Fragment {
 
     private void createDrawer() {
         mDrawer = new DrawerBuilder()
-                .withActivity(((AppCompatActivity) getActivity()))
+                .withActivity(getActivity())
                 .withToolbar(mToolbar)
                 .withActionBarDrawerToggle(true)
                 .withSelectedItem(-1)
@@ -114,46 +115,58 @@ public class MainPages extends Fragment {
                                 .withName("Настройки")
                                 .withSelectable(false)
                 )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (position == 1) {
-                            ((AppCompatActivity) getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.dataContainer, new MyProfileFragment())
-                                    .commit();
-                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    if (position == 1) {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.dataContainer, new MyProfileFragment())
+                                .commit();
+                        Toast.makeText(getActivity().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
-                        } else if (position == 2) {
-                            ((AppCompatActivity) getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.dataContainer, newPostsFragment)
-                                    .commit();
-                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+                    } else if (position == 2) {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.dataContainer, newPostsFragment)
+                                .commit();
+                        Toast.makeText(getActivity().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
-                        } else if (position == 3) {
-                            ((AppCompatActivity) getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.dataContainer, new SettingsFragment())
-                                    .commit();
-                            Toast.makeText(((AppCompatActivity) getActivity()).getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
+                    } else if (position == 3) {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.dataContainer, new SettingsFragment())
+                                .commit();
+                        Toast.makeText(getActivity().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
-                        }
-                        return false;
                     }
+                    return false;
                 })
                 .build();
     }
 
     private void createHeader() {
         mHeader = new AccountHeaderBuilder()
-                .withActivity(((AppCompatActivity) getActivity()))
+                .withActivity(getActivity())
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withName(getUserName())
                                 .withEmail(getMail())
-                ).build();
+                ).withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
+                    @Override
+                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.dataContainer, new MyProfileFragment())
+                                .commit();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
+                })
+                .build();
     }
 
     private void initFields() {

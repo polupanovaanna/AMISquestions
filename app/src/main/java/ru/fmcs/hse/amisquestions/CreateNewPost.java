@@ -63,22 +63,14 @@ public class CreateNewPost extends Fragment {
 
         mToolbar.setTitle("Добавление поста");
         postButton = view.findViewById(R.id.post_button);
-        postButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String post = MTV.getText();
-                MainActivity.controller.addPost(post, getUserId());
-                Navigation.findNavController(view).navigate(R.id.mainPages);
-            }
+        postButton.setOnClickListener(view1 -> {
+            String post = MTV.getText();
+            MainActivity.controller.addPost(post, getUserId());
+            Navigation.findNavController(view1).navigate(R.id.mainPages);
         });
 
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private ActionBar getSupportActionBar() {
