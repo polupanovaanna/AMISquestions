@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentEditProfileBinding;
+import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.User;
 
 public class EditProfile extends Fragment {
     private FragmentEditProfileBinding mBinding;
@@ -42,8 +44,12 @@ public class EditProfile extends Fragment {
             String nName = name.getText().toString();
             String nSurname = surname.getText().toString();
 
-            // TODO записать это в бд
-
+            User user = new User();
+            user.name = nName + " " + nSurname;
+            user.email = "aboba@maail.ru";//TODO email
+            user.photo = "";
+            String id = new Controller().addUser(user);
+            name.setText(id);
             getActivity().onBackPressed();
         });
     }

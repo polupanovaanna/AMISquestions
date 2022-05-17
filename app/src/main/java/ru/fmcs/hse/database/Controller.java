@@ -21,30 +21,31 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class Controller {
-    private final FirebaseDatabase mDatabase;
+    private static final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();;
     public Controller() {
-        mDatabase = FirebaseDatabase.getInstance();
     }
 
 
-    public void addUser(User user){
-        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID).child(user.id);
-        ref.setValue(user);
+    public static String addUser(User user){
+        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
+        String key = ref.push().getKey();
+        ref.child(key).setValue(user);
+        return key;
     }
 
-    public void addPost(@NotNull String text, String userId) {
+    public static void addPost(@NotNull String text, String userId) {
         DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
         Post nPost = new Post(userId, text);
         ref.push().setValue(nPost);
     }
 
-    private void updatePost(String postKey, Post Post){
+    private static void updatePost(String postKey, Post Post){
         HashMap<String, Object> update = new HashMap<>();
         update.put(postKey, Post);
         mDatabase.getReference(Post.GROUP_ID).updateChildren(update);
     }
 
-    public void addComment(String postKey, Comment comment) {
+    public static void addComment(String postKey, Comment comment) {
         DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postKey);
         ref.push().setValue(comment);
         mDatabase.getReference(Post.GROUP_ID).child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
