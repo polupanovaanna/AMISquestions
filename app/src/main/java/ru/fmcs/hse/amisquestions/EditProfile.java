@@ -47,8 +47,7 @@ public class EditProfile extends Fragment {
             User user = new User();
             user.name = nName + " " + nSurname;
             user.email = "aboba@maail.ru";//TODO email
-            user.photo = "";
-            String id = new Controller().addUser(user);
+            String id = Controller.addUser(user);
             name.setText(id);
             getActivity().onBackPressed();
         });
