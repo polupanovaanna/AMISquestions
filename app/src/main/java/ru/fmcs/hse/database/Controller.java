@@ -27,6 +27,10 @@ public class Controller {
     }
 
 
+    public void addUser(User user){
+        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID).child(user.id);
+        ref.setValue(user);
+    }
 
     public void addPost(@NotNull String text, String userId) {
         DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);

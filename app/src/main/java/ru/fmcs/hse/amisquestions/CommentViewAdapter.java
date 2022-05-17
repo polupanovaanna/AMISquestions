@@ -55,7 +55,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
 
     @Override
     public int getItemCount() {
-        return comments.size() + 1;
+        return comments.size();
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -82,6 +82,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
             if (position >= comments.size()) {
                 return;
             }
+
             commentText.setText(comments.get(position).getText());
             authorName.setText(comments.get(position).getAuthor());
         }

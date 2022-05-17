@@ -28,7 +28,8 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
     private DatabaseGlobalOrdering globalOrder;
     private String currentFilterString = "";
     private boolean reversed = false;
-    private int limit = 3;
+    public int limit = 3;
+
 
     public PrewiewAdapterWrapper(Class<?> componentType) {
         clz = componentType;
