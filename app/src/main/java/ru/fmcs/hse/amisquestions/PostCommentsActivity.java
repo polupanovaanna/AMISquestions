@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.Drawer;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
@@ -38,6 +39,14 @@ public class PostCommentsActivity extends AppCompatActivity {
     String returnedPostId;
 
     FirebaseAuth mFirebaseAuth;
+
+    private String getUserId() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null && user.getUid() != null) {
+            return user.getUid();
+        }
+        return null;
+    }
 
 
     @Override
@@ -79,7 +88,7 @@ public class PostCommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String comment = commentText.getText().toString();
-                Controller.getUserAndApply(userId, (user)->{Controller.addComment(returnedPostId, new Comment(user.name, comment));});
+                Controller.addComment(returnedPostId, new Comment(getUserId(), comment));
                 commentText.getText().clear();
             }
         });
@@ -95,4 +104,5 @@ public class PostCommentsActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
     }
+
 }

@@ -1,6 +1,7 @@
 package ru.fmcs.hse.amisquestions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ru.fmcs.hse.database.Comment;
+import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.Ordering;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
 
@@ -75,7 +77,14 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
                     Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show();
                 }
             });
+
+            authorName.setOnClickListener(view -> {
+                Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+                intent.putExtra("ru.hse.fcms.other_user_id", comments.get(id).getAuthor());
+                view.getContext().startActivity(intent);
+            });
         }
+
 
         void bind(int position) {
             id = position;
@@ -84,7 +93,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
             }
 
             commentText.setText(comments.get(position).getText());
-            authorName.setText(comments.get(position).getAuthor());
+            Controller.getUserAndApply(comments.get(id).getAuthor(), (user)->authorName.setText(user.name));
         }
     }
 }

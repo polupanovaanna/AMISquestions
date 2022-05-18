@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
      private String getUserPhotoUrl() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getPhotoUrl() != null) {
