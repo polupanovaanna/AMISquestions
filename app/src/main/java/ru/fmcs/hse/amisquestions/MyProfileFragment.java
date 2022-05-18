@@ -22,6 +22,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.jetbrains.annotations.NotNull;
+
 import ru.fmcs.hse.amisquestions.databinding.FragmentMyProfileBinding;
 import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
 import ru.fmcs.hse.database.Controller;
@@ -54,10 +56,10 @@ public class MyProfileFragment extends Fragment {
         return "err";
     }
 
-    private String getUserId() {
+    private @NotNull String getUserId() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null) {
-            return user.getTenantId();
+            return user.getUid();
         }
         return null;
     }
@@ -84,8 +86,8 @@ public class MyProfileFragment extends Fragment {
         userRole = view.findViewById(R.id.user_role);
         userMail = view.findViewById(R.id.user_mail);
         userPhoto = view.findViewById(R.id.user_pic);
-        userName.setText(getUserName());
-        userMail.setText(getUserMail());
+        Controller.getUserAndApply(getUserId(), (user)->{userName.setText(user.name);});
+        Controller.getUserAndApply(getUserId(), (user)->{userMail.setText(user.email);});
         Controller.displayProfilePhotoAndRole(getUserId(), this, mBinding.userPic ,userRole);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
 

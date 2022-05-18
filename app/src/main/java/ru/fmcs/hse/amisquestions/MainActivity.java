@@ -33,12 +33,9 @@ public class MainActivity extends AppCompatActivity {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         mFirebaseAuth = FirebaseAuth.getInstance();
+
         if (mFirebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(this, SignInActivity.class));
-            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-            Controller.addUser(new User(user.getDisplayName(),
-                    user.getEmail(),
-                    user.getPhotoUrl() == null ? null : user.getPhotoUrl().toString()), user.getUid());
             finish();
             return;
         }
@@ -48,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         mSignInClient = GoogleSignIn.getClient(this, gso);
         //подсвечивается красным но НИЧЕГО СТРАШНОГО :))))))))
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        Controller.addUser(new User(getUserName(),
+                getUserMail(),
+                getUserPhotoUrl()), getUserId());
+
     }
 
     private void signOut() {
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
-    @Deprecated
 
     private String getUserMail() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    @Deprecated
     private String getUserName() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getDisplayName() != null) {
@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
-    @Deprecated
-    private String getUserPhotoUrl() {
+     private String getUserPhotoUrl() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getPhotoUrl() != null) {
             return user.getPhotoUrl().toString();

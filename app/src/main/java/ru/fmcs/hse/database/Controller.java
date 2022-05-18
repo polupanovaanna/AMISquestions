@@ -62,7 +62,19 @@ public class Controller {
     }
     public static String addUser(User user, String key) {
         DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
-        ref.child(key).setValue(user);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.hasChild(key)){
+                    ref.child(key).setValue(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return key;
     }
 
@@ -91,8 +103,8 @@ public class Controller {
         return uri.getResult().toString();
     }
 
-    public static void displayProfilePhotoAndRole(String userId, Fragment fragment, ImageView view, TextView roleText) {
-        userId = "-N2I-AbRer2HG9LsPMOi";//TODO remove
+    public static void displayProfilePhotoAndRole(@NotNull String userId, Fragment fragment, ImageView view, TextView roleText) {
+        //userId = "-N2I-AbRer2HG9LsPMOi";//TODO remove
         getUserAndApply(userId, (u) -> {
             Glide.with(fragment).load(u.photoUri).into(view);
             roleText.setText(u.role.name());
@@ -100,7 +112,7 @@ public class Controller {
 
     }
 
-    public static void getUserAndApply(String id, Consumer<User> func) {
+    public static void getUserAndApply(@NonNull String id, Consumer<User> func) {
         mDatabase.getReference(User.GROUP_ID).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

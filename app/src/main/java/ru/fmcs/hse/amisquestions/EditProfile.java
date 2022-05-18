@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import ru.fmcs.hse.amisquestions.databinding.FragmentEditProfileBinding;
 import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.User;
@@ -22,6 +24,7 @@ public class EditProfile extends Fragment {
     private Toolbar mToolbar;
     private EditText name, surname;
     private Button commit;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +51,8 @@ public class EditProfile extends Fragment {
             user.name = nName + " " + nSurname;
             user.email = "aboba@mail.ru";//TODO email
             try {
-                Controller.getAndUpdateUserField(/*TODO get user real id*/"-N2I-AbRer2HG9LsPMOi", user.getClass().getDeclaredField("name"), user.name);
+                String userId = mFirebaseAuth.getCurrentUser().getUid();
+                Controller.getAndUpdateUserField(/*TODO get user real id"-N2I-AbRer2HG9LsPMOi"*/ userId, user.getClass().getDeclaredField("name"), user.name);
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }
