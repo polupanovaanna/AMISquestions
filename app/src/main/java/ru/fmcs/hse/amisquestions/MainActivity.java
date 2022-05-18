@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         if (mFirebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(this, SignInActivity.class));
+            //TODO вот тут надо добавить пользователя в бд. Как получить его параметры: 4 метода внизу вернут строки
             finish();
             return;
         }
@@ -50,12 +51,36 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    /*private String getUserPhotoUrl() {
+    private String getUserId() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null && user.getUid() != null) {
+            return user.getUid();
+        }
+        return null;
+    }
+
+    private String getUserMail() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            return user.getEmail();
+        }
+        return null;
+    }
+
+    private String getUserName() {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null && user.getDisplayName() != null) {
+            return user.getDisplayName();
+        }
+        return null;
+    }
+
+    private String getUserPhotoUrl() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getPhotoUrl() != null) {
             return user.getPhotoUrl().toString();
         }
         return null;
-    }*/
+    }
 
 }

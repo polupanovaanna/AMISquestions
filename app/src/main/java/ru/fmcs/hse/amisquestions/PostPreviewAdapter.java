@@ -92,8 +92,11 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 return;
             }
             id = position;
-            postText.setText(posts.get(position).getText());
+
+            //TODO здесь хочу получить имя автора по его id, которое теперь вернется через getAuthor и в setText это имя
             postAuthor.setText(posts.get(position).getAuthor());
+
+            postText.setText(posts.get(position).getText());
         }
     }
 }

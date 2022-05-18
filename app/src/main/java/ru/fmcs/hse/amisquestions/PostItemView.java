@@ -13,7 +13,7 @@ import ru.fmcs.hse.database.Post;
 
 public class PostItemView extends LinearLayout {
     private TextView postText;
-    private TextView authorsName;
+    public TextView authorsName;
     private ImageView avatarImage; //это пусть будет потом, пока не трогаю :(
     private Post postValue;
     public PostItemView(Context context, Post post) {
