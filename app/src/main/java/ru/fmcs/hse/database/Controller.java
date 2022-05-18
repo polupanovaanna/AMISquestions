@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.Condition;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -51,7 +53,7 @@ public class Controller {
 
     //upload photo and gets Url of photo
     public String uploadPhoto(String id, String path, ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] pic = baos.toByteArray();
@@ -76,13 +78,21 @@ public class Controller {
 
     public static void displayProfilePhotoAndRole(String userId, Fragment fragment, ImageView view, TextView roleText) {
         userId = "-N2I-AbRer2HG9LsPMOi";//TODO remove
-        mDatabase.getReference(User.GROUP_ID).child(userId).addValueEventListener(new ValueEventListener() {
+        getUserAndApply(userId, (u) -> {
+            Glide.with(fragment).load(u.photoUri).into(view);
+            roleText.setText(u.role.name());
+            return null;
+        });
+
+    }
+
+    public static void getUserAndApply(String id, Function<User, Void> func) {
+        mDatabase.getReference(User.GROUP_ID).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User u = snapshot.getValue(User.class);
                 if (u != null) {
-                    Glide.with(fragment).load(u.photoUri).into(view);
-                    roleText.setText(u.role.name());
+                    func.apply(u);
                 }
             }
 
@@ -91,7 +101,6 @@ public class Controller {
 
             }
         });
-
     }
 
     public static void addPost(@NotNull String text, String userId) {
