@@ -38,7 +38,7 @@ public class Controller {
     public Controller() {
     }
 
-    public static void getAndUpdateUserField(String key, Field f, Object newValue){
+    public static void getAndUpdateUserField(String key, Field f, Object newValue) {
         f.setAccessible(true);
         DatabaseReference ref = mDatabase.getReference(User.GROUP_ID).child(key);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -60,12 +60,13 @@ public class Controller {
         });
 
     }
+
     public static String addUser(User user, String key) {
         DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.hasChild(key)){
+                if (!snapshot.hasChild(key)) {
                     ref.child(key).setValue(user);
                 }
             }
@@ -145,6 +146,43 @@ public class Controller {
         HashMap<String, Object> update = new HashMap<>();
         update.put(postKey, Post);
         mDatabase.getReference(Post.GROUP_ID).updateChildren(update);
+    }
+
+    public static void addTag(String postId, String tag) {
+        DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postId);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Post p = snapshot.getValue(Post.class);
+                if (p != null) {
+                    p.tags.add(tag);
+                    ref.setValue(p);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public static void removeTag(String postId, String tag) {
+        DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postId);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Post p = snapshot.getValue(Post.class);
+                if(p!=null){
+                    p.tags.remove(tag);
+                    ref.setValue(p);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public static void addComment(String postKey, Comment comment) {
