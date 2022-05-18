@@ -136,10 +136,12 @@ public class Controller {
         });
     }
 
-    public static void addPost(@NotNull String text, String userId) {
+    public static String addPost(@NotNull String text, String userId) {
         DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID);
         Post nPost = new Post(userId, text);
-        ref.push().setValue(nPost);
+        String key = ref.push().getKey();
+        ref.child(key).setValue(nPost);
+        return key;
     }
 
     private static void updatePost(String postKey, Post Post) {
