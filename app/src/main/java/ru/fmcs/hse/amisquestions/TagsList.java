@@ -108,8 +108,8 @@ public class TagsList extends LinearLayout {
 
     }
 
-    HashSet<String> getMarkedTags() {
-        HashSet<String> ans = new HashSet<>();
+    ArrayList<String> getMarkedTags() {
+        ArrayList<String> ans = new ArrayList<>();
         for (int i = 0; i < selectedPosition.length; i++) {
             if (selectedPosition[i]) {
                 ans.add(langArray[i]);

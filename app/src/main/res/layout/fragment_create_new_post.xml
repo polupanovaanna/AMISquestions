@@ -27,6 +27,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?homeAsUpIndicator" />
 
+    <ru.fmcs.hse.amisquestions.TagsList
+        android:id="@+id/tags_list_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/markdown_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        app:layout_constraintVertical_bias="0.446" />
+
     <ru.fmcs.hse.amisquestions.MarkdownTextView
         android:id="@+id/markdown_text"
         android:layout_width="match_parent"
@@ -37,13 +50,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        app:layout_constraintVertical_bias="0.352" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/post_button"
         android:layout_width="410dp"
         android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="84dp"
         android:backgroundTint="#FFB700"
         android:text="Apply post"
         app:layout_constraintStart_toStartOf="parent"

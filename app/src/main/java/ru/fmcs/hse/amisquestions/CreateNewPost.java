@@ -27,6 +27,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentCreateNewPostBinding;
+import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.User;
 
 public class CreateNewPost extends Fragment {
@@ -36,6 +37,8 @@ public class CreateNewPost extends Fragment {
     private Drawer mDrawer;
     MarkdownTextView MTV;
     Button postButton;
+
+    TagsList tags;
 
     private FirebaseAuth mFirebaseAuth;
 
@@ -60,12 +63,15 @@ public class CreateNewPost extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = view.findViewById(R.id.toolbar2);
         MTV = view.findViewById(R.id.markdown_text);
+        tags = view.findViewById(R.id.tags_list_add);
+        tags = new TagsList(this.getContext());
+        //tags.setTags(//TODO из бд);
 
         mToolbar.setTitle("Добавление поста");
         postButton = view.findViewById(R.id.post_button);
         postButton.setOnClickListener(view1 -> {
             String post = MTV.getText();
-            MainActivity.controller.addPost(post, getUserId());
+            Controller.addPost(post, getUserId());
             Navigation.findNavController(view1).navigate(R.id.mainPages);
         });
 
