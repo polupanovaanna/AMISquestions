@@ -22,13 +22,22 @@ public class Tags {
     //Tags создается один на всю программу, затем для выпадающих списков используем TagsTable
     //Для поиска можно использовать compare для сравнения отмеченных тэгов и тегов в посте
 
-    private class TagsTable {
+    public class TagsTable {
         private Map<String, Boolean> tagsMap = new HashMap<>();
 
         public TagsTable() {
             for (String tag : tags) {
                 tagsMap.put(tag, false);
             }
+        }
+
+        public String[] getAllTags() {
+            Object[] tmp = tagsMap.keySet().toArray();
+            String[] ttmp = new String[tmp.length];
+            for (int i = 0; i < tmp.length; i++) {
+                ttmp[i] = (String) tmp[i];
+            }
+            return ttmp;
         }
 
         public void markTag(String tag) {
