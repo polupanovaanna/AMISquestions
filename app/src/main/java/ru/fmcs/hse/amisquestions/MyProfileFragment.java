@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentMyProfileBinding;
 import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
+import ru.fmcs.hse.database.Controller;
 
 
 public class MyProfileFragment extends Fragment {
@@ -53,17 +54,12 @@ public class MyProfileFragment extends Fragment {
         return "err";
     }
 
-    private String getUserPhotoUrl() {
+    private String getUserId() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        if (user != null && user.getPhotoUrl() != null) {
-            return user.getPhotoUrl().toString();
+        if (user != null) {
+            return user.getTenantId();
         }
         return null;
-    }
-
-    private String getUserRole() {
-        //чето с бд
-        return "hehe";
     }
 
     @Override
@@ -90,8 +86,7 @@ public class MyProfileFragment extends Fragment {
         userPhoto = view.findViewById(R.id.user_pic);
         userName.setText(getUserName());
         userMail.setText(getUserMail());
-        userRole.setText("ждем бд");
-        Glide.with(this).load(getUserPhotoUrl()).into(mBinding.userPic);
+        Controller.displayProfilePhotoAndRole(getUserId(), this, mBinding.userPic ,userRole);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
 
         editProfileButton = view.findViewById(R.id.edit_profile_button);
