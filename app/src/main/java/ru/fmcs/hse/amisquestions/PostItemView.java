@@ -18,7 +18,6 @@ public class PostItemView extends LinearLayout {
     private Post postValue;
     public PostItemView(Context context, Post post) {
         super(context);
-        //postValue = post;
         initializeViews(context);
     }
 

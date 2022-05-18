@@ -2,19 +2,16 @@ package ru.fmcs.hse.amisquestions;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.Drawer;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
@@ -88,8 +85,8 @@ public class PostCommentsActivity extends AppCompatActivity {
         });
 
         post.authorsName.setOnClickListener(view -> {
-            Intent intent = new Intent(post.authorsName.getContext(), PostCommentsActivity.class);
-            intent.putExtra("ru.hse.fcms.other_user_id", authorName);
+            Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+            intent.putExtra("ru.hse.fcms.other_user_id", userId);
             view.getContext().startActivity(intent);
         });
     }

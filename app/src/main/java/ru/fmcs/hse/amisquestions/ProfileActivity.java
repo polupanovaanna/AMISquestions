@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView userRole;
     TextView userMail;
     ImageView userPhoto;
-    private FirebaseAuth mFirebaseAuth;
+    Toolbar mToolbar;
 
 
     @Override
@@ -37,18 +38,22 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mToolbar = findViewById(R.id.toolbar_oth_user);
         id = getIntent().getStringExtra("ru.hse.fcms.other_user_id");
-        System.out.println(id);
+        userName = findViewById(R.id.oth_user_name);
+        userMail = findViewById(R.id.oth_user_mail);
+        userRole = findViewById(R.id.oth_user_role);
+        userPhoto = findViewById(R.id.oth_user_pic);
         Controller.getUserAndApply(id, (user)->userName.setText(user.name));
         Controller.getUserAndApply(id, (user)->userMail.setText(user.email));
+        Controller.displayProfilePhotoAndRole(id, this, binding.othUserPic ,userRole);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
-
-
-    private String getUserPhoto() {
-        //TODO база данных по id который я уже получила
-        //вызывай Controller.getUserAndApply(id, (user)->{method(user.photoUrl)})
-        return null;
-    }
-
 
 }

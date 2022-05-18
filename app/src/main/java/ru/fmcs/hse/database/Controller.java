@@ -104,12 +104,18 @@ public class Controller {
     }
 
     public static void displayProfilePhotoAndRole(@NotNull String userId, Fragment fragment, ImageView view, TextView roleText) {
-        //userId = "-N2I-AbRer2HG9LsPMOi";//TODO remove
         getUserAndApply(userId, (u) -> {
             Glide.with(fragment).load(u.photoUri).into(view);
             roleText.setText(u.role.name());
         });
 
+    }
+
+    public static void displayProfilePhotoAndRole(@NotNull String userId, Activity activity, ImageView view, TextView roleText) {
+        getUserAndApply(userId, (u) -> {
+            Glide.with(activity).load(u.photoUri).into(view);
+            roleText.setText(u.role.name());
+        });
     }
 
     public static void getUserAndApply(@NonNull String id, Consumer<User> func) {
