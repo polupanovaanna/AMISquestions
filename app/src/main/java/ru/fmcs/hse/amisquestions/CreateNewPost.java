@@ -71,7 +71,10 @@ public class CreateNewPost extends Fragment {
         postButton = view.findViewById(R.id.post_button);
         postButton.setOnClickListener(view1 -> {
             String post = MTV.getText();
-            Controller.addPost(post, getUserId());
+            String id = Controller.addPost(post, getUserId());
+            for (String tag : tags.getMarkedTags()) {
+                Controller.addTag(id, tag);
+            }
             Navigation.findNavController(view1).navigate(R.id.mainPages);
         });
 
