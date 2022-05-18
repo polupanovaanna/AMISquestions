@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.Ordering;
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
@@ -93,8 +94,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
             }
             id = position;
 
-            //TODO здесь хочу получить имя автора по его id, которое теперь вернется через getAuthor и в setText это имя
-            postAuthor.setText(posts.get(position).getAuthor());
+            Controller.getUserAndApply(posts.get(position).getAuthor(), (user)->postAuthor.setText(user.name));
 
             postText.setText(posts.get(position).getText());
         }

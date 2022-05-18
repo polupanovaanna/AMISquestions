@@ -12,8 +12,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 import ru.fmcs.hse.amisquestions.databinding.ActivityMainBinding;
 import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.User;
 
 public class MainActivity extends AppCompatActivity {
     static Controller controller = new Controller();
@@ -32,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         if (mFirebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(this, SignInActivity.class));
-            //TODO вот тут надо добавить пользователя в бд. Как получить его параметры: 4 метода внизу вернут строки
+            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+            Controller.addUser(new User(user.getDisplayName(),
+                    user.getEmail(),
+                    user.getPhotoUrl() == null ? null : user.getPhotoUrl().toString()), user.getUid());
             finish();
             return;
         }
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+    @Deprecated
 
     private String getUserMail() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
@@ -67,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    @Deprecated
     private String getUserName() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getDisplayName() != null) {
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
-
+    @Deprecated
     private String getUserPhotoUrl() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getPhotoUrl() != null) {

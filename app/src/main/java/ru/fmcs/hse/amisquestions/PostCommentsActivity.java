@@ -42,14 +42,6 @@ public class PostCommentsActivity extends AppCompatActivity {
 
     FirebaseAuth mFirebaseAuth;
 
-    public String getUserName() {
-        //TODO здесь по id пользователя (userId инициализировала до вызова метода) надо получить его нормальное имя из бд
-        /*FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        if (user != null) {
-            return user.getDisplayName();
-        }*/
-        return "err";
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +52,7 @@ public class PostCommentsActivity extends AppCompatActivity {
         post = findViewById(R.id.post_item);
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
-        //TODO а вот тут я хочу вызвать метод getUserName который мне имя вернет
-        post.setAuthor(getIntent().getStringExtra("ru.hse.fcms.post_author"));
+        Controller.getUserAndApply(userId, (user)->post.setAuthor(user.name));
         returnedPostId = getIntent().getStringExtra("ru.hse.fcms.post_id");
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
     }
@@ -91,8 +82,7 @@ public class PostCommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String comment = commentText.getText().toString();
-                Controller c = new Controller();
-                c.addComment(returnedPostId, new Comment(getUserName(), comment));
+                Controller.getUserAndApply(userId, (user)->{Controller.addComment(returnedPostId, new Comment(user.name, comment));});
                 commentText.getText().clear();
             }
         });

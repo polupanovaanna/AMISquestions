@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,14 +26,9 @@ import com.google.firebase.storage.UploadTask;
 //import com.google.firebase.firestore.auth.User;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.function.Consumer;
 
 public class Controller {
     private static final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -44,7 +38,28 @@ public class Controller {
     public Controller() {
     }
 
+    public static void getAndUpdateUserField(String key, Field f, Object newValue){
+        f.setAccessible(true);
+        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID).child(key);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User u = snapshot.getValue(User.class);
+                try {
+                    f.set(u, newValue);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                ref.setValue(u);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
     public static String addUser(User user, String key) {
         DatabaseReference ref = mDatabase.getReference(User.GROUP_ID);
         ref.child(key).setValue(user);
@@ -81,18 +96,17 @@ public class Controller {
         getUserAndApply(userId, (u) -> {
             Glide.with(fragment).load(u.photoUri).into(view);
             roleText.setText(u.role.name());
-            return null;
         });
 
     }
 
-    public static void getUserAndApply(String id, Function<User, Void> func) {
+    public static void getUserAndApply(String id, Consumer<User> func) {
         mDatabase.getReference(User.GROUP_ID).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User u = snapshot.getValue(User.class);
                 if (u != null) {
-                    func.apply(u);
+                    func.accept(u);
                 }
             }
 

@@ -46,7 +46,12 @@ public class EditProfile extends Fragment {
 
             User user = new User();
             user.name = nName + " " + nSurname;
-            user.email = "aboba@maail.ru";//TODO email
+            user.email = "aboba@mail.ru";//TODO email
+            try {
+                Controller.getAndUpdateUserField(/*TODO get user real id*/"-N2I-AbRer2HG9LsPMOi", user.getClass().getDeclaredField("name"), user.name);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
             getActivity().onBackPressed();
         });
     }

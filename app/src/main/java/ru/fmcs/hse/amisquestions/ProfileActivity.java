@@ -18,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityProfileBinding;
+import ru.fmcs.hse.database.Controller;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -37,23 +38,15 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         id = getIntent().getStringExtra("ru.hse.fcms.other_user_id");
-        userName.setText(getUserName());
-        userMail.setText(getUserEmail());
-        //TODO или здесь вызывать какой-то метод из твоей бд?..
+        System.out.println(id);
+        Controller.getUserAndApply(id, (user)->userName.setText(user.name));
+        Controller.getUserAndApply(id, (user)->userMail.setText(user.email));
     }
 
-    private String getUserName() {
-        //TODO база данных по id который я уже получила
-        return null;
-    }
-
-    private String getUserEmail() {
-        //TODO база данных по id который я уже получила
-        return null;
-    }
 
     private String getUserPhoto() {
         //TODO база данных по id который я уже получила
+        //вызывай Controller.getUserAndApply(id, (user)->{method(user.photoUrl)})
         return null;
     }
 
