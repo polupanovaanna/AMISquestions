@@ -25,7 +25,9 @@ public class PostCommentsActivity extends AppCompatActivity {
 
     public final static String postId = "ru.hse.fcms.post_id";
     public final static String postText = "ru.hse.fcms.post_text";
-    public final static String authorName = "ru.hse.fcms.post_author";
+    public final static String authorName = "ru.hse.fcms.post_author"; //по этоиу получим id пользователя создавшего пост
+
+    private String userId;
 
     private ActivityPostCommentsBinding mPostCommentsBinding;
     protected RecyclerView mRecyclerView;
@@ -41,10 +43,11 @@ public class PostCommentsActivity extends AppCompatActivity {
     FirebaseAuth mFirebaseAuth;
 
     public String getUserName() {
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        //TODO здесь по id пользователя (userId инициализировала до вызова метода) надо получить его нормальное имя из бд
+        /*FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null) {
             return user.getDisplayName();
-        }
+        }*/
         return "err";
     }
 
@@ -56,6 +59,8 @@ public class PostCommentsActivity extends AppCompatActivity {
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
         post = findViewById(R.id.post_item);
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
+        userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
+        //TODO а вот тут я хочу вызвать метод getUserName который мне имя вернет
         post.setAuthor(getIntent().getStringExtra("ru.hse.fcms.post_author"));
         returnedPostId = getIntent().getStringExtra("ru.hse.fcms.post_id");
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
@@ -90,6 +95,12 @@ public class PostCommentsActivity extends AppCompatActivity {
                 c.addComment(returnedPostId, new Comment(getUserName(), comment));
                 commentText.getText().clear();
             }
+        });
+
+        post.authorsName.setOnClickListener(view -> {
+            Intent intent = new Intent(post.authorsName.getContext(), PostCommentsActivity.class);
+            intent.putExtra("ru.hse.fcms.other_user_id", authorName);
+            view.getContext().startActivity(intent);
         });
     }
 
