@@ -32,7 +32,7 @@ import java.util.function.Consumer;
 
 public class Controller {
     private static final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    ;
+
     private static final StorageReference ImageStorage = FirebaseStorage.getInstance().getReference();
 
     public Controller() {
@@ -126,11 +126,16 @@ public class Controller {
         });
     }
 
-    public static void getUserAndApply(@NonNull String id, Consumer<User> func) {
+
+    public static void getUserAndApply(@NotNull String id, Consumer<User> func){
+        getSomethingAndApply(id, func, User.class);
+    }
+
+    public static void getSomethingAndApply(@NonNull String id, Consumer func, Class<?> somethingClass) {
         mDatabase.getReference(User.GROUP_ID).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User u = snapshot.getValue(User.class);
+                Object u = snapshot.getValue(somethingClass);
                 if (u != null) {
                     func.accept(u);
                 }

@@ -20,6 +20,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
 import ru.fmcs.hse.database.Comment;
 import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.Post;
 
 public class PostCommentsActivity extends AppCompatActivity {
 
@@ -62,7 +63,7 @@ public class PostCommentsActivity extends AppCompatActivity {
         System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
-        Controller.getUserAndApply(userId, (user)->post.setAuthor(user.name));
+        Controller.getUserAndApply(userId, (user) -> post.setAuthor(user.name));
         Controller.displayProfilePhoto(userId, this, this.post.avatarImage);
         returnedPostId = getIntent().getStringExtra("ru.hse.fcms.post_id");
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
@@ -72,13 +73,15 @@ public class PostCommentsActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        //TODO получить
-        ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
-        sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Controller.getSomethingAndApply(returnedPostId, (post) -> {
+            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (String[])(((Post)post).tags.toArray()));
+            sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        }, Post.class);
 
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
         mToolbar = findViewById(R.id.toolbar_pc);
-        addCommentButton = findiewById(R.id.add_comment_button);
+        addCommentButton = findViewById(R.id.add_comment_button);
         commentText = findViewById(R.id.comment_input);
         spinner = findViewById(R.id.spinner);
 
