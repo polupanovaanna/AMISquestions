@@ -8,21 +8,18 @@
 
     <TextView
         android:id="@+id/postTextView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="370dp"
+        android:layout_height="129dp"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NameView" />
 
     <ImageView
         android:id="@+id/Avatar"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="103dp"
+        android:layout_height="112dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="31dp"
         app:layout_constraintBottom_toTopOf="@+id/postTextView"
@@ -34,17 +31,13 @@
 
     <TextView
         android:id="@+id/NameView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="29dp"
+        android:layout_width="256dp"
+        android:layout_height="116dp"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/postTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
 

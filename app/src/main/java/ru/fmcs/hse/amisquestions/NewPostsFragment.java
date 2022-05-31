@@ -25,6 +25,7 @@ public class NewPostsFragment extends Fragment {
     private Tags tagsClass;
     private CheckBox sbd;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +50,12 @@ public class NewPostsFragment extends Fragment {
         sbd.setOnClickListener(view1 -> {
            adapter.sortChanged();
         });
+
+        tagsList.setOnClickListener(view1 -> {
+            adapter.sortChanged();
+            //TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        });
+
         adapter = new PostPreviewAdapter(sbd);
         list.setAdapter(adapter);
 

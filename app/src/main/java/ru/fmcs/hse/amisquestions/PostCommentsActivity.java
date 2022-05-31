@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +36,7 @@ public class PostCommentsActivity extends AppCompatActivity {
     private Drawer mDrawer;
     Button addCommentButton;
     EditText commentText;
+    Spinner spinner;
 
     private PostItemView post;
     String returnedPostId;
@@ -56,9 +59,11 @@ public class PostCommentsActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
         post = findViewById(R.id.post_item);
+        System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
         Controller.getUserAndApply(userId, (user)->post.setAuthor(user.name));
+        Controller.displayProfilePhoto(userId, this, this.post.avatarImage);
         returnedPostId = getIntent().getStringExtra("ru.hse.fcms.post_id");
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
     }
@@ -66,10 +71,16 @@ public class PostCommentsActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        //TODO получить
+        ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
         mToolbar = findViewById(R.id.toolbar_pc);
-        addCommentButton = findViewById(R.id.add_comment_button);
+        addCommentButton = findiewById(R.id.add_comment_button);
         commentText = findViewById(R.id.comment_input);
+        spinner = findViewById(R.id.spinner);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);

@@ -112,6 +112,13 @@ public class Controller {
 
     }
 
+    public static void displayProfilePhoto(@NotNull String userId, Activity activity, ImageView view) {
+        getUserAndApply(userId, (u) -> {
+            Glide.with(activity).load(u.photoUri).into(view);
+        });
+
+    }
+
     public static void displayProfilePhotoAndRole(@NotNull String userId, Activity activity, ImageView view, TextView roleText) {
         getUserAndApply(userId, (u) -> {
             Glide.with(activity).load(u.photoUri).into(view);
