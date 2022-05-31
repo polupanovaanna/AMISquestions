@@ -72,23 +72,23 @@ public class PostCommentsActivity extends AppCompatActivity {
     }
 
     String[] data = {"one", "two", "three", "four", "five"};
+
     @Override
     public void onStart() {
         super.onStart();
 
-
-        Controller.getSomethingAndApply(returnedPostId, (post) -> {
-            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (String[])(((Post)post).tags.toArray()));
-            sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        }, Post.class);
 
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
         mToolbar = findViewById(R.id.toolbar_pc);
         addCommentButton = findViewById(R.id.add_comment_button);
         commentText = findViewById(R.id.comment_input);
         spinner = findViewById(R.id.spinner);
-        spinner.setAdapter(sp_adapter);
         spinner.setPrompt("Tags");
+        Controller.getSomethingAndApply(returnedPostId, (post) -> {
+            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (String[]) (((Post) post).tags.toArray()));
+            sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(sp_adapter);
+        }, Post.class);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -96,6 +96,7 @@ public class PostCommentsActivity extends AppCompatActivity {
                                        int position, long id) {
                 Toast.makeText(getBaseContext(), "Position = " + position, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }

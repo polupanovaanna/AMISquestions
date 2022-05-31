@@ -163,7 +163,7 @@ public class Controller {
     }
 
     public static void addTag(String postId, String tag) {
-        DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postId);
+        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID).child(postId);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
