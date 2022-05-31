@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NewPostsFragment">
 
+
     <ru.fmcs.hse.amisquestions.TagsList
         android:id="@+id/tags_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postList"
-        android:layout_width="411dp"
-        android:layout_height="549dp"
+        android:layout_width="407dp"
+        android:layout_height="511dp"
+        android:layout_marginTop="72dp"
         android:background="#25FF9800"
         android:backgroundTint="#E2FF9800"
         android:clipToPadding="false"
@@ -29,8 +31,9 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_by_date"
+        app:layout_constraintTop_toBottomOf="@+id/tags_list"
         tools:listitem="@layout/fragment_post_preview" />
 
     <CheckBox
@@ -38,7 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Сортировать по дате?"
+        app:layout_constraintBottom_toTopOf="@+id/tags_list"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
