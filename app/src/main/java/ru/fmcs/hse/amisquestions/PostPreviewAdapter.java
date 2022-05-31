@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +28,14 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     final ArrayList<Post> posts = new ArrayList<>();
     final ArrayList<String> keyHolder = new ArrayList<>();
     PrewiewAdapterWrapper<PostPreviewHolder> db = new PrewiewAdapterWrapper<>(Post.class);
+    private CheckBox sbd; // SortByDate
 
     private void reverse() {
         db.reverse();
     }
 
-    public PostPreviewAdapter() {
+    public PostPreviewAdapter(CheckBox sbd_) {
+        sbd = sbd_;
         adapterNumber += 1;
         db.init(this, posts, keyHolder);
         db.addFiltering(Ordering.PostOrdering.TagFilter, "c++");
@@ -52,6 +55,11 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 
         PostPreviewHolder holder = new PostPreviewHolder(view);
         return holder;
+    }
+
+    public void sortChanged() {
+        // TODO set size 0 and fill in different direction
+        boolean direction = sbd.isChecked();
     }
 
     @Override
