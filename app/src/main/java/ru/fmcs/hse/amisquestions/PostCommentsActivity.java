@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,6 +70,7 @@ public class PostCommentsActivity extends AppCompatActivity {
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
     }
 
+    String[] data = {"one", "two", "three", "four", "five"};
     @Override
     public void onStart() {
         super.onStart();
@@ -78,9 +81,22 @@ public class PostCommentsActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
         mToolbar = findViewById(R.id.toolbar_pc);
-        addCommentButton = findiewById(R.id.add_comment_button);
+        addCommentButton = findViewById(R.id.add_comment_button);
         commentText = findViewById(R.id.comment_input);
         spinner = findViewById(R.id.spinner);
+        spinner.setAdapter(sp_adapter);
+        spinner.setPrompt("Tags");
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                Toast.makeText(getBaseContext(), "Position = " + position, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
