@@ -22,7 +22,7 @@ public class TagsList extends LinearLayout {
     TextView textView;
     boolean[] selectedPosition;
 
-    ArrayList<Integer> langList = new ArrayList<>();
+    public  ArrayList<Integer> langList = new ArrayList<>();
     String[] langArray;
 
 

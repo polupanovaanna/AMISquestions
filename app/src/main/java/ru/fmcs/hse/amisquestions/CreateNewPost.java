@@ -27,6 +27,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentCreateNewPostBinding;
@@ -67,8 +68,8 @@ public class CreateNewPost extends Fragment {
         mToolbar = view.findViewById(R.id.toolbar2);
         MTV = view.findViewById(R.id.markdown_text);
         tags = view.findViewById(R.id.tags_list_add);
-        tags = new TagsList(this.getContext());
         Controller.getAllTags(tags);
+
         mToolbar.setTitle("Добавление поста");
         postButton = view.findViewById(R.id.post_button);
         postButton.setOnClickListener(view1 -> {
