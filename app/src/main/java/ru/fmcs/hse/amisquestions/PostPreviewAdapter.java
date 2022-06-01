@@ -40,7 +40,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         sbd = sbd_;
         adapterNumber += 1;
         db.init(this, posts, keyHolder);
-        db.addFiltering(Ordering.PostOrdering.TagFilter, "java");
+        db.addFiltering(Ordering.PostOrdering.TAG_FILTER_REVERSED, "java");
         //db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
         //reverse();
     }
@@ -71,7 +71,10 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     }
 
     public void sortByTag (String tag) {
-        filter(Ordering.PostOrdering.TagFilter, tag);
+        filter(Ordering.PostOrdering.TAG_FILTER_REVERSED, tag);
+        if(!db.reversed){
+            db.reverse();
+        }
     }
 
     @Override

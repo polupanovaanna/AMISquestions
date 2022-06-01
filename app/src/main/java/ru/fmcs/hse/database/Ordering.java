@@ -11,7 +11,7 @@ public class Ordering {
         public static final DatabaseOrdering AUTHOR_NAME = (ref) -> ref.orderByChild("author");
         public static final DatabaseOrdering COMMENTS_REVERSED = (ref) -> ref.orderByChild("numberOfComments");
         public static final DatabaseFiltering AUTHOR_NAME_FILTERING = (ref, str) -> ref.orderByChild("author").equalTo(str);
-        public static final DatabaseFiltering TagFilter = (ref, tag) -> ref.orderByChild("tags/"+tag);
+        public static final DatabaseFiltering TAG_FILTER_REVERSED = (ref, tag) -> ref.orderByChild("tags/"+tag);
     }
 
     public static class UserOrdering{
