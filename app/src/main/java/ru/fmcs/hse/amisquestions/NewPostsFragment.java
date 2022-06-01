@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +40,9 @@ public class NewPostsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         list = view.findViewById(R.id.postList);
         tagsList = view.findViewById(R.id.tags_list);
-        Controller.getAllTags(tagsList);
+        Controller.getAllTags((list) -> {
+            tagsList.setTagsAdapter(list, adapter);
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         list.setLayoutManager(manager);
@@ -50,9 +53,6 @@ public class NewPostsFragment extends Fragment {
            adapter.sortChanged();
         });
 
-        tagsList.setOnClickListener(view1 -> {
-            adapter.sortByTag("heeh");
-        });
 
         adapter = new PostPreviewAdapter(sbd);
         list.setAdapter(adapter);

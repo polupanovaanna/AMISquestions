@@ -22,8 +22,9 @@ public class TagsList extends LinearLayout {
     TextView textView;
     boolean[] selectedPosition;
 
-    public  ArrayList<Integer> langList = new ArrayList<>();
+    public ArrayList<Integer> langList = new ArrayList<>();
     String[] langArray;
+    private PostPreviewAdapter adapter;
 
 
     public TagsList(Context context) {
@@ -38,6 +39,12 @@ public class TagsList extends LinearLayout {
 
     public void setTags(String[] langArray) {
         this.langArray = langArray;
+        selectedPosition = new boolean[langArray.length];
+    }
+
+    public void setTagsAdapter(String[] langArray, PostPreviewAdapter adapter) {
+        this.langArray = langArray;
+        this.adapter = adapter;
         selectedPosition = new boolean[langArray.length];
     }
 
@@ -84,6 +91,9 @@ public class TagsList extends LinearLayout {
                             }
                         }
                         textView.setText(stringBuilder.toString());
+                        if (adapter != null && !langList.isEmpty()) {
+                            adapter.sortByTag(langArray[langList.get(0)]);
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
