@@ -180,18 +180,21 @@ public class Controller {
 
     public static void addTag(String postId, String tag) {
         DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID).child(postId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.runTransaction(new Transaction.Handler() {
+            @NonNull
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Post p = snapshot.getValue(Post.class);
-                if (p != null) {
-                    p.tags.add(tag);
-                    ref.setValue(p);
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                Post p = currentData.getValue(Post.class);
+                if(p == null){
+                    return abort();
                 }
+                p.tags.add(tag);
+                currentData.setValue(p);
+                return Transaction.success(currentData);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
 
             }
         });
@@ -235,7 +238,7 @@ public class Controller {
         });
     }
 
-    public static void getAllTags(TagsList list){
+    public static void getAllTags(Consumer<String[]> func){
         mDatabase.getReference("tags/").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -245,7 +248,7 @@ public class Controller {
                     res[id] = snap.getKey();
                     id++;
                 }
-                list.setTags(res);
+                func.accept(res);
             }
 
             @Override

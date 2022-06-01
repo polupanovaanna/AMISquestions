@@ -1,5 +1,7 @@
 package ru.fmcs.hse.amisquestions;
 
+import static java.lang.Thread.sleep;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -64,22 +66,25 @@ public class CreateNewPost extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mToolbar = view.findViewById(R.id.toolbar2);
         MTV = view.findViewById(R.id.markdown_text);
         tags = view.findViewById(R.id.tags_list_add);
-        tags = new TagsList(this.getContext());
-        Controller.getAllTags(tags);
-        mToolbar.setTitle("Добавление поста");
         postButton = view.findViewById(R.id.post_button);
-        postButton.setOnClickListener(view1 -> {
-            String post = MTV.getText();
-            String id = Controller.addPost(post, getUserId());
-            for (String tag : tags.getMarkedTags()) {
-                Controller.addTag(id, tag);
-            }
-            Navigation.findNavController(view1).navigate(R.id.mainPages);
-        });
+        Controller.getAllTags((list) -> {
+            tags.setTags(list);
+            System.out.println(tags.langArray.length);
+            postButton.setOnClickListener(view1 -> {
+                String post = MTV.getText();
+                String id = Controller.addPost(post, getUserId());
+                for (String tag : tags.getMarkedTags()) {
+                    Controller.addTag(id, tag);
+                }
+                Navigation.findNavController(view1).navigate(R.id.mainPages);
+            });
 
+        });
+        mToolbar.setTitle("Добавление поста");
 
         mToolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
