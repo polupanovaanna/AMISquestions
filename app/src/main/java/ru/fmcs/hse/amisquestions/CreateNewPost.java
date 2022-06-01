@@ -26,6 +26,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.fmcs.hse.amisquestions.databinding.FragmentCreateNewPostBinding;
 import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.User;
@@ -65,8 +68,7 @@ public class CreateNewPost extends Fragment {
         MTV = view.findViewById(R.id.markdown_text);
         tags = view.findViewById(R.id.tags_list_add);
         tags = new TagsList(this.getContext());
-        //tags.setTags(//TODO из бд);
-
+        Controller.getAllTags(tags);
         mToolbar.setTitle("Добавление поста");
         postButton = view.findViewById(R.id.post_button);
         postButton.setOnClickListener(view1 -> {
