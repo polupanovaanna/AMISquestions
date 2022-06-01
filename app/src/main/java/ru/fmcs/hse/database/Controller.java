@@ -188,7 +188,7 @@ public class Controller {
                 if(p == null){
                     return abort();
                 }
-                p.tags.add(tag);
+                p.tags.put(tag, "");
                 currentData.setValue(p);
                 return Transaction.success(currentData);
             }
