@@ -52,7 +52,7 @@ public class EditProfile extends Fragment {
             user.email = "aboba@mail.ru";//TODO email
             try {
                 String userId = mFirebaseAuth.getCurrentUser().getUid();
-                Controller.getAndUpdateUserField(/*TODO get user real id"-N2I-AbRer2HG9LsPMOi"*/ userId, user.getClass().getDeclaredField("name"), user.name);
+                Controller.getAndUpdateUserField(userId, user.getClass().getDeclaredField("name"), user.name);
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }

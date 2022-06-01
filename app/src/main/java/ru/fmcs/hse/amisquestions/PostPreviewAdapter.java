@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.DatabaseFiltering;
+import ru.fmcs.hse.database.DatabaseOrdering;
 import ru.fmcs.hse.database.Ordering;
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
@@ -61,9 +63,15 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         // TODO set size 0 and fill in different direction
         boolean direction = sbd.isChecked();
     }
+    public void sort(DatabaseOrdering order){
+        db.changeOrdering(order);
+    }
+    public void filter(DatabaseFiltering filter, String param){
+        db.addFiltering(filter, param);
+    }
 
     public void sortByTag (String tag) {
-        //TODO смениь на сортировку по переданному тэгу
+        filter(Ordering.PostOrdering.TagFilter, tag);
     }
 
     @Override
