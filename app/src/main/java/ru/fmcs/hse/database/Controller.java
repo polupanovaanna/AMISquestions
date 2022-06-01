@@ -141,20 +141,27 @@ public class Controller {
     }
 
     public static void getSomethingAndApply(@NonNull String id, Consumer func, Class<?> somethingClass) {
-        mDatabase.getReference(User.GROUP_ID).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Object u = snapshot.getValue(somethingClass);
-                if (u != null) {
-                    func.accept(u);
+        try {
+            mDatabase.getReference(somethingClass.getField("GROUP_ID").get(null).toString()).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Object u = snapshot.getValue(somethingClass);
+                    if (u != null) {
+                        func.accept(u);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        } catch (NoSuchFieldException e) {
+            System.err.println("Error no group id");
+            System.err.println(somethingClass);
+        } catch (IllegalAccessException e) {
+            System.err.println("Access denied");
+        }
     }
 
     public static String addPost(@NotNull String text, String userId) {

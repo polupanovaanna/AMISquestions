@@ -11,7 +11,7 @@ public class User {
         Moderator,
         Guest
     }
-    static String GROUP_ID = "users";
+    public static String GROUP_ID = "users";
     public User(){}
     public User(String name_, String email_, String photoUri_){
         name = name_;
