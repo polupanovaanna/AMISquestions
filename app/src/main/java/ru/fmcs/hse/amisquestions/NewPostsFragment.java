@@ -23,8 +23,7 @@ public class NewPostsFragment extends Fragment {
     private FragmentNewPostsBinding mBinding;
     private RecyclerView list;
     private PostPreviewAdapter adapter;
-    private TagsList tagsList;
-    //private Tags tagsClass;
+    private TagsListSingle tagsList;
     private CheckBox sbd;
 
 
@@ -53,11 +52,9 @@ public class NewPostsFragment extends Fragment {
            adapter.sortChanged();
         });
 
-
         adapter = new PostPreviewAdapter(sbd);
         list.setAdapter(adapter);
 
-        System.out.println("here: " + (list == null));
     }
 
     @Override

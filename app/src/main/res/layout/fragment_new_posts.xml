@@ -7,10 +7,10 @@
     tools:context=".NewPostsFragment">
 
 
-    <ru.fmcs.hse.amisquestions.TagsList
+    <ru.fmcs.hse.amisquestions.TagsListSingle
         android:id="@+id/tags_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="1489dp"
+        android:layout_height="86dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -21,9 +21,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postList"
-        android:layout_width="407dp"
-        android:layout_height="511dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="413dp"
+        android:layout_height="492dp"
+        android:layout_marginTop="113dp"
         android:background="#25FF9800"
         android:backgroundTint="#E2FF9800"
         android:clipToPadding="false"
@@ -31,9 +31,9 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tags_list"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/fragment_post_preview" />
 
     <CheckBox
