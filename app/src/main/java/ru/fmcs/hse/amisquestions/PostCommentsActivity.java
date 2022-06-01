@@ -85,7 +85,7 @@ public class PostCommentsActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         spinner.setPrompt("Tags");
         Controller.getSomethingAndApply(returnedPostId, (post) -> {
-            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post).tags.toArray(new String[((Post)post).tags.size()])));
+            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post).tags.keySet().toArray(new String[((Post)post).tags.size()])));
             System.out.println("hehehehehehehehehehehehe");
             sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(sp_adapter);
