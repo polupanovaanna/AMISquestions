@@ -52,8 +52,7 @@ public class NewPostsFragment extends Fragment {
         });
 
         tagsList.setOnClickListener(view1 -> {
-            adapter.sortChanged();
-            //TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            adapter.sortByTag("heeh");
         });
 
         adapter = new PostPreviewAdapter(sbd);

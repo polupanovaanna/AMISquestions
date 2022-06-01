@@ -62,6 +62,10 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         boolean direction = sbd.isChecked();
     }
 
+    public void sortByTag (String tag) {
+        //TODO смениь на сортировку по переданному тэгу
+    }
+
     @Override
     public void onBindViewHolder(@NonNull PostPreviewHolder holder, int position) {
         holder.bind(position);
