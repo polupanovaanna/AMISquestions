@@ -42,6 +42,10 @@ public class CreateNewPost extends Fragment {
 
     private FirebaseAuth mFirebaseAuth;
 
+    public void setText(String text) {
+        MTV.setText(text);
+    }
+
     public String getUserId() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null) {

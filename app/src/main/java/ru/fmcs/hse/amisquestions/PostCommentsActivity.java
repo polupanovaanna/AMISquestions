@@ -2,6 +2,7 @@ package ru.fmcs.hse.amisquestions;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.Drawer;
@@ -39,6 +41,7 @@ public class PostCommentsActivity extends AppCompatActivity {
     Button addCommentButton;
     EditText commentText;
     Spinner spinner;
+    FloatingActionButton fab;
 
     private PostItemView post;
     String returnedPostId;
@@ -86,6 +89,19 @@ public class PostCommentsActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         spinner.setAdapter(sp_adapter);
         spinner.setPrompt("Tags");
+        fab = findViewById(R.id.edit_post);
+
+        // TODO false swap to owner or admin, and my userid don't work
+        if (false || getUserId() == "e6Lrx64pwwat8ANzR6kuGH6k1rw2")
+            fab.setVisibility(View.VISIBLE);
+        else
+            fab.setVisibility(View.INVISIBLE);
+        fab.setVisibility(View.VISIBLE); // TODO delete
+        fab.setOnClickListener(Navigation.createNavigateOnClickListener(
+                R.id.action_postCommentsFragment_to_createNewPost
+        )); // TODO fix fail or make activity same to create new post
+        // Better is activity, cause need to add delete button
+        // Maybe add button send to author to refactor
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

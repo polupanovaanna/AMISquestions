@@ -32,6 +32,10 @@ public class MarkdownTextView extends LinearLayout {
         initializeViews(context);
     }
 
+    public void setText(String text) {
+        markdownEditText.setText(text);
+    }
+
     public String getText() {
         return markdownEditText.getText().toString();
     }
