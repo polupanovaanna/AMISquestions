@@ -77,7 +77,6 @@ public class PostCommentsActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
         mToolbar = findViewById(R.id.toolbar_pc);
         addCommentButton = findViewById(R.id.add_comment_button);
@@ -86,7 +85,6 @@ public class PostCommentsActivity extends AppCompatActivity {
         spinner.setPrompt("Tags");
         Controller.getSomethingAndApply(returnedPostId, (post) -> {
             ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post).tags.keySet().toArray(new String[((Post)post).tags.size()])));
-            System.out.println("hehehehehehehehehehehehe");
             sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(sp_adapter);
         }, Post.class);
