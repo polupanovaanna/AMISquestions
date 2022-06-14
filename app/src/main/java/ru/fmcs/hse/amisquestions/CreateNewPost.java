@@ -107,7 +107,7 @@ public class CreateNewPost extends Fragment {
 
     private void sendNotification(String topic) {
         //String DeviceIdKey = "/topics/" + topic;
-        String authKey = "AAAAOe-fwQ4:APA91bGEIYA-jFasr6oGYamBjk16526bTeGl5qo3EICuuR-zIgC8VtonPHKboW2HldTXTGR_EQbzVDQ9FudefpY-wKXUxF_zfy2gRvG8uyBIvFABvNpV8M_1Fv0lrHp4Ji_7kmu7-kXB";
+        String authKey = "";
         String FMCurl = "https://fcm.googleapis.com/fcm/send";
 
         try {
