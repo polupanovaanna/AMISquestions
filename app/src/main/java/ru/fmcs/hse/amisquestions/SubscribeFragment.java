@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
 import ru.fmcs.hse.amisquestions.databinding.FragmentSubscribeBinding;
 import ru.fmcs.hse.database.Controller;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SubscribeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SubscribeFragment extends Fragment {
 
     private FragmentSubscribeBinding mBinding;
@@ -59,6 +50,7 @@ public class SubscribeFragment extends Fragment {
 
         subscribeButton.setOnClickListener(view1 -> {
             for (String tag : tagsList.getMarkedTags()) {
+                //TODO
                 FirebaseMessaging.getInstance().subscribeToTopic(tag);
             }
         });
