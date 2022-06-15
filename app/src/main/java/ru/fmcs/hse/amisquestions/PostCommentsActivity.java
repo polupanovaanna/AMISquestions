@@ -101,10 +101,11 @@ public class PostCommentsActivity extends AppCompatActivity {
         // Better is activity, cause need to add delete button
         // Maybe add button send to author to refactor
 
-        Controller.getSomethingAndApply(returnedPostId, (post) -> {
-            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post).tags.keySet().toArray(new String[((Post)post).tags.size()])));
+        Controller.getSomethingAndApply(returnedPostId, (post_) -> {
+            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post_).tags.keySet().toArray(new String[((Post)post_).tags.size()])));
             sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(sp_adapter);
+            post.setPostDate(((Post) post_).timeCreated!= null ? ((Post) post_).timeCreated.toString() : "Unspecified date");
         }, Post.class);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
