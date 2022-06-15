@@ -104,6 +104,11 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                 intent.putExtra("ru.hse.fcms.post_text", postText.getText());
                 intent.putExtra("ru.hse.fcms.post_author", posts.get(id).getAuthor());
                 intent.putExtra("ru.hse.fcms.post_id", keyHolder.get(id));
+//                if (posts.get(id).timeCreated != null) {
+//                    intent.putExtra("ru.hse.fcms.post_date", posts.get(id).timeCreated.toString());
+//                } else {
+//                    intent.putExtra("ru.hse.fcms.post_date", "no date");
+//                }
                 view.getContext().startActivity(intent);
             });
         }
