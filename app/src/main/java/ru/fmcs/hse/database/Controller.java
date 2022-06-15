@@ -185,7 +185,7 @@ public class Controller {
     private static void updatePost(String postKey, Post Post) {
         HashMap<String, Object> update = new HashMap<>();
         update.put(postKey, Post);
-        mDatabase.getReference(Post.GROUP_ID).updateChildren(update);
+        mDatabase.getReference(ru.fmcs.hse.database.Post.GROUP_ID).updateChildren(update);
     }
 
     public static void addTag(String postId, String tag) {

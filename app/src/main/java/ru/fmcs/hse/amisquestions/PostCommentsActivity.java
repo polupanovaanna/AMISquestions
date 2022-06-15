@@ -65,9 +65,9 @@ public class PostCommentsActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
         post = findViewById(R.id.post_item);
-        System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
+        //System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
-        post.setPostDate(getIntent().getStringExtra("ru.hse.fcms.post_text")); // TODO change to date, not text
+        post.setPostDate(getIntent().getStringExtra("ru.hse.fcms.post_date")); // TODO change to date, not text
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
         Controller.getUserAndApply(userId, (user) -> post.setAuthor(user.name));
         Controller.displayProfilePhoto(userId, this, this.post.avatarImage);
@@ -105,7 +105,8 @@ public class PostCommentsActivity extends AppCompatActivity {
             ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post_).tags.keySet().toArray(new String[((Post)post_).tags.size()])));
             sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(sp_adapter);
-            post.setPostDate(((Post) post_).timeCreated!= null ? ((Post) post_).timeCreated.toString() : "Unspecified date");
+            System.out.println(((Post) post_).timeCreated);
+            post.setPostDate(((Post) post_).timeCreated != null ? ((Post) post_).timeCreated : "Unspecified date");
         }, Post.class);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
