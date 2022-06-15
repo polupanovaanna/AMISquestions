@@ -67,6 +67,7 @@ public class PostCommentsActivity extends AppCompatActivity {
         post = findViewById(R.id.post_item);
         System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
+        post.setPostDate(getIntent().getStringExtra("ru.hse.fcms.post_text")); // TODO change to date, not text
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
         Controller.getUserAndApply(userId, (user) -> post.setAuthor(user.name));
         Controller.displayProfilePhoto(userId, this, this.post.avatarImage);

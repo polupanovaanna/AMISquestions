@@ -57,6 +57,10 @@ public class PostItemView extends LinearLayout {
         postText.setText(text);
     }
 
+    public void setPostDate(String data) {
+        date.setText(data);
+    }
+
     public void setAuthor(String author) {
         authorsName.setText(author);
     }
