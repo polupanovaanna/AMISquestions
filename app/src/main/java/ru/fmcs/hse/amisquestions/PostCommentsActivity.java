@@ -24,6 +24,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
 import ru.fmcs.hse.database.Comment;
 import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.Post;
 
 public class PostCommentsActivity extends AppCompatActivity {
 
@@ -67,27 +68,23 @@ public class PostCommentsActivity extends AppCompatActivity {
         System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
-        Controller.getUserAndApply(userId, (user)->post.setAuthor(user.name));
+        Controller.getUserAndApply(userId, (user) -> post.setAuthor(user.name));
         Controller.displayProfilePhoto(userId, this, this.post.avatarImage);
         returnedPostId = getIntent().getStringExtra("ru.hse.fcms.post_id");
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
     }
 
     String[] data = {"one", "two", "three", "four", "five"};
+
     @Override
     public void onStart() {
         super.onStart();
-
-        //TODO получить
-        ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
-        sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mRecyclerView = findViewById(R.id.RecyclerViewComments);
         mToolbar = findViewById(R.id.toolbar_pc);
         addCommentButton = findViewById(R.id.add_comment_button);
         commentText = findViewById(R.id.comment_input);
         spinner = findViewById(R.id.spinner);
-        spinner.setAdapter(sp_adapter);
         spinner.setPrompt("Tags");
         fab = findViewById(R.id.edit_post);
 
@@ -103,12 +100,19 @@ public class PostCommentsActivity extends AppCompatActivity {
         // Better is activity, cause need to add delete button
         // Maybe add button send to author to refactor
 
+        Controller.getSomethingAndApply(returnedPostId, (post) -> {
+            ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post).tags.keySet().toArray(new String[((Post)post).tags.size()])));
+            sp_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(sp_adapter);
+        }, Post.class);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 Toast.makeText(getBaseContext(), "Position = " + position, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }

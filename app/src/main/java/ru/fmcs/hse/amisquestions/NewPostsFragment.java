@@ -9,20 +9,21 @@ import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
 import ru.fmcs.hse.amisquestions.databinding.FragmentNewPostsBinding;
+import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.Tags;
 
 public class NewPostsFragment extends Fragment {
     private FragmentNewPostsBinding mBinding;
     private RecyclerView list;
     private PostPreviewAdapter adapter;
-    private TagsList tagsList;
-    private Tags tagsClass;
+    private TagsListSingle tagsList;
     private CheckBox sbd;
 
 
@@ -37,10 +38,10 @@ public class NewPostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         list = view.findViewById(R.id.postList);
-        tagsClass = new Tags();
         tagsList = view.findViewById(R.id.tags_list);
-        Tags.TagsTable tags = tagsClass.getTagsTable();
-        tagsList.setTags(tags.getAllTags());
+        Controller.getAllTags((list) -> {
+            tagsList.setTagsAdapter(list, adapter);
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         list.setLayoutManager(manager);
@@ -51,15 +52,9 @@ public class NewPostsFragment extends Fragment {
            adapter.sortChanged();
         });
 
-        tagsList.setOnClickListener(view1 -> {
-            adapter.sortChanged();
-            //TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        });
-
         adapter = new PostPreviewAdapter(sbd);
         list.setAdapter(adapter);
 
-        System.out.println("here: " + (list == null));
     }
 
     @Override

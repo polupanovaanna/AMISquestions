@@ -1,7 +1,12 @@
 package ru.fmcs.hse.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import ru.fmcs.hse.database.ContentObj;
 
 public class Post extends ContentObj{
@@ -9,7 +14,7 @@ public class Post extends ContentObj{
     public static String GROUP_ID = "posts";
     public int numberOfComments = 0;
     public List<String> listOfCommentsId = new ArrayList<>();
-    public List<String> tags = new ArrayList<>();
+    public Map<String, String> tags = new HashMap<>();
     public Post(){
     }
     public Post(String authorId, String text) {

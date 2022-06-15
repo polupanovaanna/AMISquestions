@@ -104,13 +104,19 @@ public class MainPages extends Fragment {
                                 .withSelectable(false),
 
                         new PrimaryDrawerItem()
-                                .withIdentifier(100)
+                                .withIdentifier(101)
                                 .withIconTintingEnabled(true)
                                 .withName("Новые посты")
                                 .withSelectable(false),
 
                         new PrimaryDrawerItem()
-                                .withIdentifier(101)
+                                .withIdentifier(102)
+                                .withIconTintingEnabled(true)
+                                .withName("Подписки")
+                                .withSelectable(false),
+
+                        new PrimaryDrawerItem()
+                                .withIdentifier(103)
                                 .withIconTintingEnabled(true)
                                 .withName("Настройки")
                                 .withSelectable(false)
@@ -133,10 +139,16 @@ public class MainPages extends Fragment {
                     } else if (position == 3) {
                         getActivity().getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.dataContainer, new SettingsFragment())
+                                .replace(R.id.dataContainer, new SubscribeFragment())
                                 .commit();
                         Toast.makeText(getActivity().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
 
+                    } else if (position == 4) {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.dataContainer, new SettingsFragment())
+                                .commit();
+                        Toast.makeText(getActivity().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG - 1).show();
                     }
                     return false;
                 })

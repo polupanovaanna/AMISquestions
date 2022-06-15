@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import ru.fmcs.hse.database.Controller;
+import ru.fmcs.hse.database.DatabaseFiltering;
+import ru.fmcs.hse.database.DatabaseOrdering;
 import ru.fmcs.hse.database.Ordering;
 import ru.fmcs.hse.database.Post;
 import ru.fmcs.hse.database.PrewiewAdapterWrapper;
@@ -38,7 +40,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         sbd = sbd_;
         adapterNumber += 1;
         db.init(this, posts, keyHolder);
-        db.addFiltering(Ordering.PostOrdering.TagFilter, "java");
+        db.addFiltering(Ordering.PostOrdering.TAG_FILTER_REVERSED, "java");
         //db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
         //reverse();
     }
@@ -60,6 +62,19 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
     public void sortChanged() {
         // TODO set size 0 and fill in different direction
         boolean direction = sbd.isChecked();
+    }
+    public void sort(DatabaseOrdering order){
+        db.changeOrdering(order);
+    }
+    public void filter(DatabaseFiltering filter, String param){
+        db.addFiltering(filter, param);
+    }
+
+    public void sortByTag (String tag) {
+        filter(Ordering.PostOrdering.TAG_FILTER_REVERSED, tag);
+        if(!db.reversed){
+            db.reverse();
+        }
     }
 
     @Override

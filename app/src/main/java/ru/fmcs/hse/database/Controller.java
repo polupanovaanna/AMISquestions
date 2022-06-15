@@ -1,5 +1,7 @@
 package ru.fmcs.hse.database;
 
+import static com.google.firebase.database.Transaction.abort;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +21,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,12 +32,16 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Consumer;
+
+import ru.fmcs.hse.amisquestions.TagsList;
 
 public class Controller {
     private static final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    ;
+
     private static final StorageReference ImageStorage = FirebaseStorage.getInstance().getReference();
 
     public Controller() {
@@ -126,21 +135,33 @@ public class Controller {
         });
     }
 
-    public static void getUserAndApply(@NonNull String id, Consumer<User> func) {
-        mDatabase.getReference(User.GROUP_ID).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User u = snapshot.getValue(User.class);
-                if (u != null) {
-                    func.accept(u);
+
+    public static void getUserAndApply(@NotNull String id, Consumer<User> func){
+        getSomethingAndApply(id, func, User.class);
+    }
+
+    public static void getSomethingAndApply(@NonNull String id, Consumer func, Class<?> somethingClass) {
+        try {
+            mDatabase.getReference(somethingClass.getField("GROUP_ID").get(null).toString()).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Object u = snapshot.getValue(somethingClass);
+                    if (u != null) {
+                        func.accept(u);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        } catch (NoSuchFieldException e) {
+            System.err.println("Error no group id");
+            System.err.println(somethingClass);
+        } catch (IllegalAccessException e) {
+            System.err.println("Access denied");
+        }
     }
 
     public static String addPost(@NotNull String text, String userId) {
@@ -158,19 +179,22 @@ public class Controller {
     }
 
     public static void addTag(String postId, String tag) {
-        DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = mDatabase.getReference(Post.GROUP_ID).child(postId);
+        ref.runTransaction(new Transaction.Handler() {
+            @NonNull
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Post p = snapshot.getValue(Post.class);
-                if (p != null) {
-                    p.tags.add(tag);
-                    ref.setValue(p);
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                Post p = currentData.getValue(Post.class);
+                if(p == null){
+                    return abort();
                 }
+                p.tags.put(tag, "");
+                currentData.setValue(p);
+                return Transaction.success(currentData);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
 
             }
         });
@@ -210,6 +234,47 @@ public class Controller {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public static void getAllTags(Consumer<String[]> func){
+        mDatabase.getReference("tags/").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String[] res = new String[(int)snapshot.getChildrenCount()];
+                int id = 0;
+                for(DataSnapshot snap: snapshot.getChildren()){
+                    res[id] = snap.getKey();
+                    id++;
+                }
+                func.accept(res);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static void addTagToAll(String tag){
+        mDatabase.getReference("tags_count/").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                Long value = currentData.getValue(Long.class);
+                if(value == null){
+                    return abort();
+                }
+                currentData.setValue(value+1);
+                mDatabase.getReference("tags/"+tag).setValue(value);
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
             }
         });
     }

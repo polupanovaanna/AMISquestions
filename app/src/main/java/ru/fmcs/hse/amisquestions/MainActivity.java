@@ -1,17 +1,29 @@
 package ru.fmcs.hse.amisquestions;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Objects;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityMainBinding;
@@ -21,13 +33,30 @@ import ru.fmcs.hse.database.User;
 public class MainActivity extends AppCompatActivity {
     static Controller controller = new Controller();
 
+    private static final String TAG = "MainActivity";
     public static final String ANONYMOUS = "anonymous";
     private GoogleSignInClient mSignInClient;
     private ActivityMainBinding mBinding;
     private FirebaseAuth mFirebaseAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        System.out.println(token);
+                    }
+                });
         super.onCreate(savedInstanceState);
 
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -50,6 +79,34 @@ public class MainActivity extends AppCompatActivity {
         Controller.addUser(new User(getUserName(),
                 getUserMail(),
                 getUserPhotoUrl()), getUserId());
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        String token = task.getResult();
+                        //TODO внести токен к пользователю в бд
+                    }
+                });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
 
     }
 
@@ -84,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-     private String getUserPhotoUrl() {
+    private String getUserPhotoUrl() {
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         if (user != null && user.getPhotoUrl() != null) {
             return user.getPhotoUrl().toString();
