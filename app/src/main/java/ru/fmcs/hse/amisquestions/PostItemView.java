@@ -1,6 +1,7 @@
 package ru.fmcs.hse.amisquestions;
 
 import android.content.Context;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class PostItemView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         postText = findViewById(R.id.postTextView);
+        postText.setMovementMethod(new ScrollingMovementMethod());
         authorsName = findViewById(R.id.NameView);
         avatarImage = findViewById(R.id.Avatar);
         date = findViewById(R.id.post_date);

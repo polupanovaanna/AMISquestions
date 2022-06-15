@@ -12,9 +12,11 @@
         android:layout_height="129dp"
         android:textColor="@color/black"
         android:textSize="16sp"
+        android:maxLines = "50"
+        android:scrollbars = "vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameView" />
+        app:layout_constraintTop_toBottomOf="@+id/post_date" />
 
     <ImageView
         android:id="@+id/Avatar"
@@ -32,7 +34,7 @@
     <TextView
         android:id="@+id/NameView"
         android:layout_width="256dp"
-        android:layout_height="116dp"
+        android:layout_height="85dp"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -44,10 +46,10 @@
         android:id="@+id/post_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="5dp"
         android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Avatar" />
+        app:layout_constraintStart_toStartOf="@id/NameView"
+        app:layout_constraintTop_toBottomOf="@+id/NameView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
