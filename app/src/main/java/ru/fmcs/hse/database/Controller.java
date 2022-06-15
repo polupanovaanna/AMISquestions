@@ -118,7 +118,17 @@ public class Controller {
             Glide.with(fragment).load(u.photoUri).into(view);
             roleText.setText(u.role.name());
         });
+    }
 
+    public static void displayPostPhoto(String postId, Activity activity, List<ImageView> views) {
+        getSomethingAndApply(postId, (post) -> {
+            for (int i = 0; i < ((Post) post).photoUrl.size(); i++) {
+                if (i >= views.size()) {
+                    throw new RuntimeException("Number of views is too small to display all photos");
+                }
+                Glide.with(activity).load(((Post) post).photoUrl.get(0)).into(views.get(i));
+            }
+        }, Post.class);
     }
 
     public static void displayProfilePhoto(@NotNull String userId, Activity activity, ImageView view) {
@@ -136,7 +146,7 @@ public class Controller {
     }
 
 
-    public static void getUserAndApply(@NotNull String id, Consumer<User> func){
+    public static void getUserAndApply(@NotNull String id, Consumer<User> func) {
         getSomethingAndApply(id, func, User.class);
     }
 
@@ -185,7 +195,7 @@ public class Controller {
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData currentData) {
                 Post p = currentData.getValue(Post.class);
-                if(p == null){
+                if (p == null) {
                     return abort();
                 }
                 p.tags.put(tag, "");
@@ -199,13 +209,14 @@ public class Controller {
             }
         });
     }
+
     public static void removeTag(String postId, String tag) {
         DatabaseReference ref = mDatabase.getReference(Comment.GROUP_ID).child(postId);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post p = snapshot.getValue(Post.class);
-                if(p!=null){
+                if (p != null) {
                     p.tags.remove(tag);
                     ref.setValue(p);
                 }
@@ -238,13 +249,13 @@ public class Controller {
         });
     }
 
-    public static void getAllTags(Consumer<String[]> func){
+    public static void getAllTags(Consumer<String[]> func) {
         mDatabase.getReference("tags/").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String[] res = new String[(int)snapshot.getChildrenCount()];
+                String[] res = new String[(int) snapshot.getChildrenCount()];
                 int id = 0;
-                for(DataSnapshot snap: snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     res[id] = snap.getKey();
                     id++;
                 }
@@ -258,17 +269,17 @@ public class Controller {
         });
     }
 
-    public static void addTagToAll(String tag){
+    public static void addTagToAll(String tag) {
         mDatabase.getReference("tags_count/").runTransaction(new Transaction.Handler() {
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData currentData) {
                 Long value = currentData.getValue(Long.class);
-                if(value == null){
+                if (value == null) {
                     return abort();
                 }
-                currentData.setValue(value+1);
-                mDatabase.getReference("tags/"+tag).setValue(value);
+                currentData.setValue(value + 1);
+                mDatabase.getReference("tags/" + tag).setValue(value);
                 return Transaction.success(currentData);
             }
 

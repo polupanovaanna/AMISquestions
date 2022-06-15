@@ -15,6 +15,7 @@ public class Post extends ContentObj{
     public int numberOfComments = 0;
     public List<String> listOfCommentsId = new ArrayList<>();
     public Map<String, String> tags = new HashMap<>();
+    public List<String> photoUrl = new ArrayList<>();
     public Post(){
     }
     public Post(String authorId, String text) {
