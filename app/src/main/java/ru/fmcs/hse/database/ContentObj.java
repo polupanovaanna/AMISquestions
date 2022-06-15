@@ -7,12 +7,13 @@ public class ContentObj {
     protected String author = null;
     protected String text = null;
     protected int numberOfViews = 0;
-    protected Date timeCreated = null;
+    public Date timeCreated = null;
     static String GROUP_ID;
 
     //Список объектов типа: файл
-    protected ContentObj(){
+    protected ContentObj() {
     }
+
     protected ContentObj(String authorId, String text) {
         this.author = authorId;
         setText(text);
@@ -43,4 +44,7 @@ public class ContentObj {
         return numberOfViews;
     }
 
+    public void setNumberOfViews(int x) {
+        numberOfViews = x;
+    }
 }

@@ -49,7 +49,6 @@ public class EditProfile extends Fragment {
 
             User user = new User();
             user.name = nName + " " + nSurname;
-            user.email = "aboba@mail.ru";//TODO email
             try {
                 String userId = mFirebaseAuth.getCurrentUser().getUid();
                 Controller.getAndUpdateUserField(userId, user.getClass().getDeclaredField("name"), user.name);
