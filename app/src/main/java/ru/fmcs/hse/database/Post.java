@@ -24,7 +24,7 @@ public class Post extends ContentObj {
 
     public Post(String authorId, String text) {
         super(authorId, text);
-        timeCreated = new Date().toLocaleString();
+        timeCreated = new Date().toString();
     }
 
     public void increaseNumberOfComments() {
