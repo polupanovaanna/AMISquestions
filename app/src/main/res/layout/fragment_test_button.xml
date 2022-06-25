@@ -21,7 +21,7 @@
         android:id="@+id/applytext"
         android:layout_width="339dp"
         android:layout_height="61dp"
-        android:text="apply"
+        android:text="Добавить"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enterText" />

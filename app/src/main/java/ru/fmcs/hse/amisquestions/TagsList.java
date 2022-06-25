@@ -66,7 +66,7 @@ public class TagsList extends LinearLayout {
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select tags");
+                builder.setTitle("Выберите теги");
                 builder.setCancelable(false);
 
                 builder.setMultiChoiceItems(langArray, selectedPosition, new DialogInterface.OnMultiChoiceClickListener() {
@@ -96,13 +96,13 @@ public class TagsList extends LinearLayout {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
                 });
-                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("Очистить", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         for (int j = 0; j < selectedPosition.length; j++) {

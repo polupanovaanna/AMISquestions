@@ -17,6 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.latex.JLatexMathPlugin;
+import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
 import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.DatabaseFiltering;
 import ru.fmcs.hse.database.DatabaseOrdering;
@@ -101,7 +104,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
                     Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
             itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
-                intent.putExtra("ru.hse.fcms.post_text", postText.getText());
+                intent.putExtra("ru.hse.fcms.post_text", postText.getText().toString());
                 intent.putExtra("ru.hse.fcms.post_author", posts.get(id).getAuthor());
                 intent.putExtra("ru.hse.fcms.post_id", keyHolder.get(id));
 //                if (posts.get(id).timeCreated != null) {
@@ -122,9 +125,20 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
             }
             id = position;
 
+            final Markwon markwon = Markwon.builder(itemView.getContext())
+                    .usePlugin(MarkwonInlineParserPlugin.create())
+                    .usePlugin(JLatexMathPlugin.create(postText.getTextSize(), new JLatexMathPlugin.BuilderConfigure() {
+                        @Override
+                        public void configureBuilder(@NonNull JLatexMathPlugin.Builder builder) {
+                            builder.inlinesEnabled(true);
+                        }
+                    }))
+                    .build();
+
+            markwon.setMarkdown(postText, posts.get(position).getText());
+
             Controller.getUserAndApply(posts.get(position).getAuthor(), (user) -> postAuthor.setText(user.name));
 
-            postText.setText(posts.get(position).getText());
         }
     }
 }

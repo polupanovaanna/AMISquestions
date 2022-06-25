@@ -1,5 +1,6 @@
 package ru.fmcs.hse.amisquestions;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.Drawer;
 
+import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.latex.JLatexMathPlugin;
+import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
 import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
 import ru.fmcs.hse.database.Comment;
 import ru.fmcs.hse.database.Controller;
@@ -65,9 +69,21 @@ public class PostCommentsActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
         post = findViewById(R.id.post_item);
-        //System.out.println(getIntent().getStringExtra("ru.hse.fcms.post_text"));
         post.setPostText(getIntent().getStringExtra("ru.hse.fcms.post_text"));
-//        post.setPostDate(getIntent().getStringExtra("ru.hse.fcms.post_date")); // TODO change to date, not text
+
+        final Markwon markwon = Markwon.builder(this)
+                .usePlugin(MarkwonInlineParserPlugin.create())
+                .usePlugin(JLatexMathPlugin.create(post.postText.getTextSize(), new JLatexMathPlugin.BuilderConfigure() {
+                    @Override
+                    public void configureBuilder(@NonNull JLatexMathPlugin.Builder builder) {
+                        builder.inlinesEnabled(true);
+                    }
+                }))
+                .build();
+
+
+        markwon.setMarkdown(post.postText, "$$" + getIntent().getStringExtra("ru.hse.fcms.post_text") + "$$");
+
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
         Controller.getUserAndApply(userId, (user) -> post.setAuthor(user.name));
         Controller.displayProfilePhoto(userId, this, this.post.avatarImage);
@@ -75,7 +91,6 @@ public class PostCommentsActivity extends AppCompatActivity {
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
     }
 
-    String[] data = {"one", "two", "three", "four", "five"};
 
     @Override
     public void onStart() {

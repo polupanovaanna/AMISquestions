@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import ru.fmcs.hse.database.Post;
 
 public class PostItemView extends LinearLayout {
-    private TextView postText;
+    public TextView postText;
     public TextView authorsName;
     public ImageView avatarImage;
     private Post postValue;
@@ -63,5 +63,9 @@ public class PostItemView extends LinearLayout {
 
     public void setAuthor(String author) {
         authorsName.setText(author);
+    }
+
+    public float getTextSize() {
+        return postText.getTextSize();
     }
 }

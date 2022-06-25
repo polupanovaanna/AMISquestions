@@ -34,7 +34,7 @@ public class TagsListSingle extends TagsList {
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select tags");
+                builder.setTitle("Выберите тег");
                 builder.setCancelable(false);
 
                 builder.setSingleChoiceItems(langArray, position, new DialogInterface.OnClickListener() {
@@ -62,13 +62,13 @@ public class TagsListSingle extends TagsList {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
                 });
-                builder.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("Очистить", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         selectedPosition[position] = false;
