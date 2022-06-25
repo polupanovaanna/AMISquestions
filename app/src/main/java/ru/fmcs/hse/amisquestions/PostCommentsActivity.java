@@ -1,12 +1,13 @@
 package ru.fmcs.hse.amisquestions;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -110,11 +111,9 @@ public class PostCommentsActivity extends AppCompatActivity {
         else
             fab.setVisibility(View.INVISIBLE);
         fab.setVisibility(View.VISIBLE); // TODO delete
-        fab.setOnClickListener(Navigation.createNavigateOnClickListener(
-                R.id.action_postCommentsFragment_to_createNewPost
-        )); // TODO fix fail or make activity same to create new post
-        // Better is activity, cause need to add delete button
-        // Maybe add button send to author to refactor
+        fab.setOnClickListener(view -> {
+            removePostCheck("Удалить пост?", "");
+        });
 
         Controller.getSomethingAndApply(returnedPostId, (post_) -> {
             ArrayAdapter<String> sp_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, (((Post) post_).tags.keySet().toArray(new String[((Post)post_).tags.size()])));
@@ -163,6 +162,29 @@ public class PostCommentsActivity extends AppCompatActivity {
             intent.putExtra("ru.hse.fcms.other_user_id", userId);
             view.getContext().startActivity(intent);
         });
+    }
+
+    private void removePostCheck(String title, String content) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.setNegativeButton("Нет",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        // NO just do nothing
+                    }
+                });
+        builder.setPositiveButton("Да",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                            // OK
+                        // TODO delete post idk how
+                        finish();
+                    }
+                });
+        builder.show();
     }
 
     @Override
