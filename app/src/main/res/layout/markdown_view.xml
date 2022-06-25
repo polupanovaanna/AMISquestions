@@ -28,7 +28,7 @@
         android:id="@+id/editText"
         android:layout_width="400dp"
         android:layout_height="173dp"
-        android:hint="put your text"
+        android:hint="введите текст"
         android:textColorHint="#616161" />
 
 </RelativeLayout>

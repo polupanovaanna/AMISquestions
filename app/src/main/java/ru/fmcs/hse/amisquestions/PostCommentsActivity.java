@@ -77,7 +77,7 @@ public class PostCommentsActivity extends AppCompatActivity {
                 }))
                 .build();
 
-        //System.out.println("$$" + getIntent().getStringExtra("ru.hse.fcms.post_text") + "$$");
+
         markwon.setMarkdown(post.postText, "$$" + getIntent().getStringExtra("ru.hse.fcms.post_text") + "$$");
 
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
@@ -87,7 +87,6 @@ public class PostCommentsActivity extends AppCompatActivity {
         mPostCommentsBinding = ActivityPostCommentsBinding.inflate(getLayoutInflater());
     }
 
-    String[] data = {"one", "two", "three", "four", "five"};
 
     @Override
     public void onStart() {

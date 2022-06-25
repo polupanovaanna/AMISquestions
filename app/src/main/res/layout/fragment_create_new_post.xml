@@ -59,7 +59,7 @@
         android:layout_height="75dp"
         android:layout_marginTop="84dp"
         android:backgroundTint="#FFB700"
-        android:text="Apply post"
+        android:text="Добавить пост"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/markdown_text"
         app:strokeColor="#FF9800" />

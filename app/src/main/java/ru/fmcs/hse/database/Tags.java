@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Tags {
     static String GROUP_ID = "Tag";
-    private ArrayList<String> tags = new ArrayList<>(Arrays.asList("C++", "python", "java"));
+    private ArrayList<String> tags = new ArrayList<>(Arrays.asList("C++", "Python", "Java", "Математический анализ", "Unix", "Теория вероятности", "АКОС"));
 
     public void addTag(String newtag) {
         tags.add(newtag);
