@@ -46,6 +46,7 @@ public class PrewiewAdapterWrapper<T extends RecyclerView.ViewHolder> {
         }
         this.adapter = adapter;
         dataHolder = holder;
+        this.keyHolder = keyHolder;
         updater = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
