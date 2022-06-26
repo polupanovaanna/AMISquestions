@@ -84,7 +84,7 @@ public class PostCommentsActivity extends AppCompatActivity {
                 .build();
 
 
-        markwon.setMarkdown(post.postText, "$$" + getIntent().getStringExtra("ru.hse.fcms.post_text") + "$$");
+        markwon.setMarkdown(post.postText, getIntent().getStringExtra("ru.hse.fcms.post_text"));
 
         userId = getIntent().getStringExtra("ru.hse.fcms.post_author");
         Controller.getUserAndApply(userId, (user) -> post.setAuthor(user.name));

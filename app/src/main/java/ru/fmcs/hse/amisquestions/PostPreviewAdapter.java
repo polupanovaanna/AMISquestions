@@ -103,7 +103,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
             });
             itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
-                intent.putExtra("ru.hse.fcms.post_text", postText.getText().toString());
+                intent.putExtra("ru.hse.fcms.post_text", posts.get(id).getText());
                 intent.putExtra("ru.hse.fcms.post_author", posts.get(id).getAuthor());
                 intent.putExtra("ru.hse.fcms.post_id", keyHolder.get(id));
 //                if (posts.get(id).timeCreated != null) {
