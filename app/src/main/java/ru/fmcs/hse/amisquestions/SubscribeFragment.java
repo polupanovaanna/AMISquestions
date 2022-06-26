@@ -42,7 +42,6 @@ public class SubscribeFragment extends Fragment {
         unsubscribeButton = view.findViewById(R.id.button_sub_2);
 
         subscribeMessage.setText("Выберите теги, на которые вы хотите подписаться или отписаться");
-        //TODO я бы тут просто текстом хотела получать теги, на которые подписан пользователь и писать их текстом в сообщении выше
 
         Controller.getAllTags((list) -> {
             tagsList.setTags(list);
@@ -50,7 +49,6 @@ public class SubscribeFragment extends Fragment {
 
         subscribeButton.setOnClickListener(view1 -> {
             for (String tag : tagsList.getMarkedTags()) {
-                //TODO
                 FirebaseMessaging.getInstance().subscribeToTopic(tag);
             }
         });

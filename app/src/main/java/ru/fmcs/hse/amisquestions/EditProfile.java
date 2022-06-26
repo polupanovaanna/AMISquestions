@@ -51,7 +51,7 @@ public class EditProfile extends Fragment {
             user.name = nName + " " + nSurname;
             try {
                 String userId = mFirebaseAuth.getCurrentUser().getUid();
-                Controller.getAndUpdateUserField(userId, user.getClass().getDeclaredField("name"), user.name);
+                Controller.getAndUpdateSomeField(userId, user.getClass().getDeclaredField("name"), user.name, User.class);
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }

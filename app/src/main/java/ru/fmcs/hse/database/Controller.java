@@ -47,9 +47,14 @@ public class Controller {
     public Controller() {
     }
 
-    public static void getAndUpdateUserField(String key, Field f, Object newValue) {
+    public static void getAndUpdateSomeField(String key, Field f, Object newValue, Class<?> clazz) {
         f.setAccessible(true);
-        DatabaseReference ref = mDatabase.getReference(User.GROUP_ID).child(key);
+        DatabaseReference ref;
+        try {
+            ref = mDatabase.getReference((String) clazz.getField("GROUP_ID").get(null)).child(key);
+        } catch (Exception e) {
+            return;
+        }
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,6 +93,27 @@ public class Controller {
         return key;
     }
 
+    public static void incrementNumberOfViews(String postKey) {
+        mDatabase.getReference(Post.GROUP_ID).child(postKey).runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                Post p = currentData.getValue(Post.class);
+                if (p == null) {
+                    return abort();
+                }
+                p.numberOfViews++;
+                currentData.setValue(p);
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+            }
+        });
+    }
+
     //upload photo and gets Url of photo
     public String uploadPhoto(String id, String path, ImageView image) {
         Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
@@ -118,6 +144,10 @@ public class Controller {
             Glide.with(fragment).load(u.photoUri).into(view);
             roleText.setText(u.role.name());
         });
+    }
+
+    public static void deletePost(String postId) {
+        mDatabase.getReference(Post.GROUP_ID).child(postId).removeValue();
     }
 
     public static void displayPostPhoto(String postId, Activity activity, List<ImageView> views) {

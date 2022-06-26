@@ -5,7 +5,7 @@ public class User {
     public String email;
     public String photoUri;
     public Role role = Role.Guest;
-    enum Role{
+    public enum Role{
         Student,
         Teacher,
         Moderator,

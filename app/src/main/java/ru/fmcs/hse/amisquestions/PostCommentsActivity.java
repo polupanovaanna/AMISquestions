@@ -30,6 +30,7 @@ import ru.fmcs.hse.amisquestions.databinding.ActivityPostCommentsBinding;
 import ru.fmcs.hse.database.Comment;
 import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.Post;
+import ru.fmcs.hse.database.User;
 
 public class PostCommentsActivity extends AppCompatActivity {
 
@@ -106,11 +107,8 @@ public class PostCommentsActivity extends AppCompatActivity {
         fab = findViewById(R.id.edit_post);
 
         // TODO false swap to owner or admin, and my userid don't work
-        if (false || getUserId() == "e6Lrx64pwwat8ANzR6kuGH6k1rw2")
-            fab.setVisibility(View.VISIBLE);
-        else
-            fab.setVisibility(View.INVISIBLE);
-        fab.setVisibility(View.VISIBLE); // TODO delete
+        fab.setVisibility(View.INVISIBLE);
+        Controller.getUserAndApply(getUserId(), (user)->{if(user.role == User.Role.Moderator || user.role == User.Role.Teacher)fab.setVisibility(View.VISIBLE);});
         fab.setOnClickListener(view -> {
             removePostCheck("Удалить пост?", "");
         });
@@ -180,7 +178,7 @@ public class PostCommentsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog,
                                         int which) {
                             // OK
-                        // TODO delete post idk how
+                        Controller.deletePost(returnedPostId);
                         finish();
                     }
                 });

@@ -43,9 +43,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         sbd = sbd_;
         adapterNumber += 1;
         db.init(this, posts, keyHolder);
-        //db.addFiltering(Ordering.PostOrdering.TAG_FILTER_REVERSED, "java");
-        //db.changeOrdering(Ordering.PostOrdering.VIEWS_REVERSED);
-        //reverse();
+        db.changeOrdering(Ordering.DEFAULT);
     }
 
     @NonNull
@@ -100,8 +98,9 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
             super(itemView);
             postText = itemView.findViewById(R.id.post_text);
             postAuthor = itemView.findViewById(R.id.author_name);
-            itemView.setOnClickListener(view ->
-                    Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show());
+            itemView.setOnClickListener(view ->{
+                    Toast.makeText(view.getContext(), Integer.toString(id), Toast.LENGTH_LONG - 1).show();
+            });
             itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), PostCommentsActivity.class);
                 intent.putExtra("ru.hse.fcms.post_text", postText.getText().toString());
@@ -113,6 +112,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
 //                    intent.putExtra("ru.hse.fcms.post_date", "no date");
 //                }
                 view.getContext().startActivity(intent);
+                Controller.incrementNumberOfViews(keyHolder.get(id));
             });
         }
 

@@ -14,9 +14,6 @@ public class Ordering {
         public static final DatabaseFiltering TAG_FILTER_REVERSED = (ref, tag) -> ref.orderByChild("tags/"+tag);
     }
 
-    public static class UserOrdering{
-        //TODO
-    }
 
     public static class CommentsOrdering{
         public static final DatabaseFiltering POST_COMMENTS = DatabaseReference::child;
