@@ -115,28 +115,26 @@ public class Controller {
     }
 
     //upload photo and gets Url of photo
-    public String uploadPhoto(String id, String path, ImageView image) {
+    public static void uploadPhoto(String id, ImageView image) {
         Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] pic = baos.toByteArray();
-        StorageReference nPath = ImageStorage.child(path).child(id + ".jpg");
+        StorageReference nPath = ImageStorage.child(id + ".jpg");
         UploadTask uploadTask = nPath.putBytes(pic);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
+                Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                while(!task.isComplete()){}
+                try {
+
+                    Controller.getAndUpdateSomeField(id, User.class.getField("photoUri"), task.getResult().toString(), User.class);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
-        Task<Uri> uri = nPath.getDownloadUrl();
-        return uri.getResult().toString();
     }
 
     public static void displayProfilePhotoAndRole(@NotNull String userId, Fragment fragment, ImageView view, TextView roleText) {

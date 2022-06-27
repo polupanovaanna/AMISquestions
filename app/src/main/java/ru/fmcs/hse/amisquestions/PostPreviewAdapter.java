@@ -43,7 +43,7 @@ public class PostPreviewAdapter extends RecyclerView.Adapter<PostPreviewAdapter.
         sbd = sbd_;
         adapterNumber += 1;
         db.init(this, posts, keyHolder);
-        db.changeOrdering(Ordering.DEFAULT);
+        sortByTag("c++");
     }
 
     @NonNull

@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements ImageInputHelper.
     public void onImageSelectedFromGallery(Uri uri, File imageFile) {
         ImageView img = new ImageView(getBaseContext(), null);
         img.setImageURI(uri);
-        // TODO load img
+        Controller.uploadPhoto(getUserId(), img);
     }
 
     @Override
