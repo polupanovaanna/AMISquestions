@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +33,7 @@ import ru.fmcs.hse.amisquestions.databinding.ActivityMainBinding;
 import ru.fmcs.hse.database.Controller;
 import ru.fmcs.hse.database.User;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ImageInputHelper.ImageActionListener {
     static Controller controller = new Controller();
 
     private static final String TAG = "MainActivity";
@@ -38,10 +41,13 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInClient mSignInClient;
     private ActivityMainBinding mBinding;
     private FirebaseAuth mFirebaseAuth;
+    public static ImageInputHelper imageInputHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        imageInputHelper = new ImageInputHelper(this);
+        imageInputHelper.setImageActionListener(this);
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -149,4 +155,26 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imageInputHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onImageSelectedFromGallery(Uri uri, File imageFile) {
+        ImageView img = new ImageView(getBaseContext(), null);
+        img.setImageURI(uri);
+        // TODO load img
+    }
+
+    @Override
+    public void onImageTakenFromCamera(Uri uri, File imageFile) {
+        // idk
+    }
+
+    @Override
+    public void onImageCropped(Uri uri, File imageFile) {
+        // idk
+    }
 }

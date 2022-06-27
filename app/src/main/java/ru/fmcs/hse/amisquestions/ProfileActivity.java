@@ -1,5 +1,6 @@
 package ru.fmcs.hse.amisquestions;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -17,6 +18,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.io.File;
 
 import ru.fmcs.hse.amisquestions.databinding.ActivityProfileBinding;
 import ru.fmcs.hse.database.Controller;
@@ -55,5 +58,4 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -24,7 +24,8 @@ public class EditProfile extends Fragment {
     private Toolbar mToolbar;
     private EditText name, surname;
     private Button commit;
-    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private Button imgChoose;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +41,14 @@ public class EditProfile extends Fragment {
         name = view.findViewById(R.id.new_name);
         surname = view.findViewById(R.id.new_surname);
         commit = view.findViewById(R.id.commit_edit);
+        imgChoose = view.findViewById(R.id.image_choose);
+
+        imgChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.imageInputHelper.selectImageFromGallery();
+            }
+        });
 
         mToolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
